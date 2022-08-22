@@ -1,2 +1,2 @@
 # headstarter-mock-plivo
-Headstarter mock internship project by product manager from Plivo.
+Headstarter mock internship project assigned by product manager from Plivo.
