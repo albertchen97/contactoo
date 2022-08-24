@@ -32,19 +32,11 @@ export default function Chats() {
       headers: {
         'Project-ID': process.env.REACT_APP_CHAT_ENGINE_ID,
         "Private-Key": process.env.REACT_APP_CHAT_ENGINE_KEY,
-        'User-Name': 'sample',
-        'User-Secret': 'sample'
-      }
-    }
-      // {
-      //   headers: {
-      //     'Project-ID': process.env.REACT_APP_CHAT_ENGINE_ID,
-      //     // 'user-name': user.email,
-      //     // 'user-secret': user.uid,
-      //     "Private-Key": process.env.REACT_APP_CHAT_ENGINE_KEY
-      //   }
-      // }
-    )
+        'User-Name': "sample",
+        'User-Secret': "sample"
+        // 'User-Name': user.email,
+        // 'User-Secret': user.uid
+      }})
       .then(() => {
         // once api resolves the get promise, we are done loading
         setLoading(false)
@@ -59,6 +51,7 @@ export default function Chats() {
         // get user's profile pic
         getFile(user.photoURL)
           .then((avatar) => {
+            console.log(avatar)
             formdata.append('avatar', avatar, avatar.name)
             // now to create new user since user doesn't exist yet on chatengine
             // axios post is requesting chatengine api to create something
@@ -67,7 +60,7 @@ export default function Chats() {
                 'Private-key': process.env.REACT_APP_CHAT_ENGINE_KEY
               }
             })
-              .then(() => setLoading(false)) // if post request is resolved (successful) then done loading
+              .then(() => { setLoading(false) }) // if post request is resolved (successful) then done loading
               .catch((error) => console.log(error)) // if post request is rejected then log reject value
           })
       })
@@ -102,8 +95,10 @@ export default function Chats() {
       <ChatEngine
         height='calc(100vh-66px)'
         projectID={process.env.REACT_APP_CHAT_ENGINE_ID}
-        userName={user.email}
-        userSecret={user.uid}
+        // userName={user.email}
+        // userSecret={user.uid}
+        userName={'sample'}
+        userSecret={'sample'}
       />
     </div>
   )
