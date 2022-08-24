@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import { AuthProvider } from "./contexts/AuthContext";
+
+import Chats from "./components/Chats";
+import Login from "./components/Login";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ fontFamily: "Avenir" }}>
+      <Router>
+        <AuthProvider>
+          {/* switch component says render either of these inner components (chats or login), using first one that matches URL, instead of all */}
+          <Switch>
+            {/* <Route path="/chats" component={Chats} /> */}
+            <Route path="/chats" component={Chats} />
+            <Route path="/" component={Login} />
+          </Switch>
+        </AuthProvider>
+      </Router>
     </div>
   );
 }
