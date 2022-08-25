@@ -69,11 +69,11 @@ class Geolocation extends React.Component {
         <p>Longtitude: {this.state.longitude}</p>
         <h4>Google Maps Reverse Geocoding</h4>
         <p>Address: {this.state.userAddress}</p>
-        {
+        {/* {
           // render the map if the geolocation is available; else do nothing
           this.state.latitude && this.state.longitude ?
             <img src={ } alt='' /> : null
-        }
+        } */}
       </div>
     );
   }
