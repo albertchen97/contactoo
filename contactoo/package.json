@@ -8,6 +8,8 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
+    "emailjs": "^4.0.1",
+    "emailjs-com": "^3.2.0",
     "firebase": "^7.20.0",
     "react": "^16.13.1",
     "react-chat-engine": "^1.8.10",
