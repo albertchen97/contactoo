@@ -10,6 +10,11 @@
       "StackName": "amplify-contactoo-dev-141548",
       "StackId": "arn:aws:cloudformation:us-east-1:657355528009:stack/amplify-contactoo-dev-141548/18e839b0-24bb-11ed-a518-0e62ffe04047",
       "AmplifyAppId": "dk479tzygt0zf"
+    },
+    "categories": {
+      "auth": {
+        "contactoo5f78a34a": {}
+      }
     }
   }
 }
