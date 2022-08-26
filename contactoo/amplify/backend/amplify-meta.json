@@ -38,7 +38,7 @@
         "GraphQLAPIIdOutput": "cjvozpfrd5bohjsnvvc5wu5c6u",
         "GraphQLAPIEndpointOutput": "https://2gja6e64wjbhnphvdfx6ompgia.appsync-api.us-east-1.amazonaws.com/graphql"
       },
-      "lastPushTimeStamp": "2022-08-26T16:40:38.545Z",
+      "lastPushTimeStamp": "2022-08-26T16:54:25.830Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-contactoo-dev-141548-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apicontactoo"
@@ -74,7 +74,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-contactoo-dev-141548-deployment/amplify-cfn-templates/auth/contactoo5f78a34a-cloudformation-template.json",
         "logicalId": "authcontactoo5f78a34a"
       },
-      "lastPushTimeStamp": "2022-08-26T16:40:38.550Z",
+      "lastPushTimeStamp": "2022-08-26T16:54:25.835Z",
       "output": {
         "UserPoolId": "us-east-1_g8I778c2U",
         "AppClientIDWeb": "4n2m9qb9f6njs24nk1e2ek0i8k",
