@@ -8,6 +8,7 @@
             "Outputs.UserPoolId"
         ]
     },
+    "AuthModeLastUpdated": "2022-08-25T21:40:42.280Z",
     "S3DeploymentBucket": "amplify-contactoo-dev-141548-deployment",
     "S3DeploymentRootKey": "amplify-appsync-files/6ffd8e873963d0701d20c324e16bc611acd95421"
 }
