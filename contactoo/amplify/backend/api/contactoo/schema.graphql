@@ -3,8 +3,14 @@
 
 type Message
   # Create a model tag for the messages in chat with three fields: id, owner, message
-
-  @model {
+  @model
+  @auth(
+    rules:[
+      # Allow signed in users to perform all actions
+      {allow: private}
+    ]
+  )
+  {
   id: ID!
   owner: String!
   message: String!
