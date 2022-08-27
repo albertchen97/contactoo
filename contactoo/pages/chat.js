@@ -5,7 +5,7 @@ import { API, Auth, withSSRContext, graphqlOperation } from "aws-amplify";
 import { listMessages } from "../src/graphql/queries";
 import { createMessage } from "../src/graphql/mutations";
 import { onCreateMessage } from "../src/graphql/subscriptions";
-import Message from "../components/Message";
+import Message from "../components/message";
 
 function Chat({ messages }) {
   const [stateMessages, setStateMessages] = useState([...messages]);
