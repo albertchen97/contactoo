@@ -8,7 +8,7 @@ import { createMessage } from "../src/graphql/mutations";
 import Message from "../components/message";
 import { onCreateMessage } from "../src/graphql/subscriptions";
 
-function Home({ messages }) {
+function Chat({ messages }) {
   const [stateMessages, setStateMessages] = useState([...messages]);
   const [messageText, setMessageText] = useState("");
   const [user, setUser] = useState(null);
@@ -124,7 +124,7 @@ function Home({ messages }) {
   }
 }
 
-export default withAuthenticator(Home);
+export default withAuthenticator(Chat);
 
 export async function getServerSideProps({ req }) {
   // wrap the request in a withSSRContext to use Amplify functionality serverside.
