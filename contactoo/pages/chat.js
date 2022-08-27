@@ -5,7 +5,7 @@ import { API, Auth, withSSRContext, graphqlOperation } from "aws-amplify";
 import { listMessages } from "../src/graphql/queries";
 import { createMessage } from "../src/graphql/mutations";
 import { onCreateMessage } from "../src/graphql/subscriptions";
-import Message from "../components/message";
+import Message from "../components/Message";
 
 function Chat({ messages }) {
   const [stateMessages, setStateMessages] = useState([...messages]);
@@ -94,6 +94,7 @@ function Chat({ messages }) {
                 <Message
                   message={message}
                   user={user}
+                  // isMe - A Boolean that detects if the current user is the ownser of the message.
                   isMe={user.username === message.owner}
                   key={message.id}
                 />
