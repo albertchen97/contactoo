@@ -1,14 +1,13 @@
-// This is the chat page with the rout localhost:3000/chat
 import React, { useEffect, useState } from "react";
 import styles from "../styles/Chat.module.css";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { API, Auth, withSSRContext, graphqlOperation } from "aws-amplify";
 import { listMessages } from "../src/graphql/queries";
 import { createMessage } from "../src/graphql/mutations";
-import Message from "../components/message";
 import { onCreateMessage } from "../src/graphql/subscriptions";
+import Message from "../components/Message";
 
-function Home({ messages }) {
+function Chat({ messages }) {
   const [stateMessages, setStateMessages] = useState([...messages]);
   const [messageText, setMessageText] = useState("");
   const [user, setUser] = useState(null);
@@ -95,6 +94,7 @@ function Home({ messages }) {
                 <Message
                   message={message}
                   user={user}
+                  // isMe - A Boolean that detects if the current user is the ownser of the message.
                   isMe={user.username === message.owner}
                   key={message.id}
                 />
@@ -124,7 +124,7 @@ function Home({ messages }) {
   }
 }
 
-export default withAuthenticator(Home);
+export default withAuthenticator(Chat);
 
 export async function getServerSideProps({ req }) {
   // wrap the request in a withSSRContext to use Amplify functionality serverside.

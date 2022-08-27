@@ -1,6 +1,6 @@
 {
   "auth": {
-    "contactooaf577061": {
+    "contactoo52adf4ce": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
@@ -26,13 +26,13 @@
     }
   },
   "api": {
-    "chatAPI": {
+    "ChatAPI": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "auth",
-          "resourceName": "contactooaf577061",
+          "resourceName": "contactoo52adf4ce",
           "attributes": [
             "UserPoolId"
           ]
@@ -43,7 +43,7 @@
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
-              "userPoolId": "authcontactooaf577061"
+              "userPoolId": "authcontactoo52adf4ce"
             }
           },
           "additionalAuthenticationProviders": []

@@ -1,5 +1,5 @@
 projects:
-  chatAPI:
+  ChatAPI:
     schemaPath: src/graphql/schema.json
     includes:
       - src/graphql/**/*.js
