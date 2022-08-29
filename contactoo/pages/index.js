@@ -1,8 +1,8 @@
 // This is the home page
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import Chat from "./chat";
+import Head from 'next/head';
+import Image from 'next/image';
+import styles from '../styles/Home.module.css';
+import Chat from './chat';
 
 export default function Home() {
   return (
@@ -50,8 +50,9 @@ export default function Home() {
         <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
           target="_blank"
-          rel="noopener noreferrer">
-          Powered by{" "}
+          rel="noopener noreferrer"
+        >
+          Powered by{' '}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
