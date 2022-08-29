@@ -1,10 +1,19 @@
 // This is the home page
 import Head from "next/head";
 import Image from "next/image";
-import { mainLogo, splashBG, magnifyGlass, smsLogo, emailLogo } from "../public/imageIndex"
+import {
+  mainLogo,
+  splashBG,
+  magnifyGlass,
+  smsLogo,
+  emailLogo,
+} from "../public/imageIndex";
 import Chat from "./chat";
+// The withAuthenticator wrapper wraps the Home component so that the brwoser will only render the Home page if the user is authenticated (logged in).
+import { withAuthenticator } from "@aws-amplify/ui-react";
 
-export default function Home() {
+// export default function Home() {
+function Home() {
   return (
     <div>
       <Head>
@@ -15,11 +24,9 @@ export default function Home() {
 
       {/* Main Body */}
       <main className="flex flex-col items-center w-screen text-xl md:text-2xl">
-
         {/* Nav Bar with title + sign in, the bar will stick to the top of the screen*/}
         <nav className="sticky top-0 z-20 flex items-center justify-center w-full h-16 bg-white md:h-24">
           <div className="flex items-center justify-between w-11/12 md:w-5/6 max-w-7xl">
-
             {/* logo and title */}
             <div className="flex gap-2">
               <Image src={mainLogo} />
@@ -30,43 +37,47 @@ export default function Home() {
             <button className="flex items-center justify-center h-10 p-3 text-white bg-black hover:bg-cyan-300 md:h-12 md:p-5 rounded-2xl">
               Sign In
             </button>
-
           </div>
         </nav>
 
         {/* Middle section with welcome message + search bar */}
         <div className="relative flex items-center justify-center w-full h-64 md:h-80">
-          <Image className="object-cover" src={splashBG} layout="fill" draggable="false"/>
+          <Image
+            className="object-cover"
+            src={splashBG}
+            layout="fill"
+            draggable="false"
+          />
           <div className="z-10 flex flex-col items-center justify-center w-4/5 max-w-3xl gap-3 whitespace-nowrap md:w-1/2 md:gap-6 ">
-            
-            <h1 className="text-3xl font-bold md:text-5xl">Contactoo Support</h1>
+            <h1 className="text-3xl font-bold md:text-5xl">
+              Contactoo Support
+            </h1>
             <h1 className="text-3xl md:text-5xl">How can we help?</h1>
 
             {/* search bar container */}
             <form className="w-full h-full" action="">
               <div className="relative flex flex-col justify-center item-center">
-
                 {/* magnifying glass */}
                 <div className="absolute w-10 h-10 md:w-12 md:h-12 right-3">
                   <Image src={magnifyGlass} layout="fill"></Image>
                 </div>
 
                 {/* actually search bar */}
-                <input className="w-full pl-5 pr-16 h-14 md:h-16 rounded-2xl" type={"text"} placeholder="Search for help"></input>
+                <input
+                  className="w-full pl-5 pr-16 h-14 md:h-16 rounded-2xl"
+                  type={"text"}
+                  placeholder="Search for help"></input>
               </div>
             </form>
-
           </div>
         </div>
 
         {/* Bottom tiles for picking service type */}
         <div className="flex flex-wrap justify-center w-11/12 gap-5 md:flex-nowrap md:w-3/4 mt-11 md:mt-14">
-          
           {/* SMS tile */}
           <a
             className="flex flex-col items-center justify-center max-w-md p-8 border border-gray-500 hover:border-cyan-500 hover:text-cyan-500 md:p-10 w-72 h-72 md:h-96 md:w-96 rounded-2xl"
-            href="http://localhost:3000/sms"
-          >
+            href="http://localhost:3000/sms">
             <Image src={smsLogo} />
             <p>Message us regarding your questions, comments, or concerns.</p>
           </a>
@@ -74,21 +85,20 @@ export default function Home() {
           {/* Email tile */}
           <a
             className="flex flex-col items-center justify-center max-w-md p-8 border border-gray-500 hover:border-cyan-500 hover:text-cyan-500 md:p-10 w-72 h-72 md:h-96 md:w-96 rounded-2xl"
-            href="http://localhost:3000/email"
-          >
+            href="http://localhost:3000/email">
             <Image src={emailLogo} />
             <p>Email us regarding your questions, comments, or concerns.</p>
-          
           </a>
-
         </div>
 
         {/* Live Chat */}
         <button className="fixed bottom-0 right-0 flex items-center h-10 pl-5 pr-5 text-xl text-white bg-black md:right-5 md:h-16 md:text-3xl ">
           Live Chat
         </button>
-
       </main>
     </div>
   );
 }
+// Wrap the Home component in withAuthenticator method.
+// Home component will be rendered only when the user is authenticated.
+export default withAuthenticator(Home);
