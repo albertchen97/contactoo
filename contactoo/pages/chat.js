@@ -7,7 +7,7 @@ import { createMessage } from "../src/graphql/mutations";
 import { onCreateMessage } from "../src/graphql/subscriptions";
 import Message from "../components/Message";
 
-function Chat({ messages }) {
+export default function Chat({ messages }) {
   const [stateMessages, setStateMessages] = useState([...messages]);
   const [messageText, setMessageText] = useState("");
   const [user, setUser] = useState(null);
@@ -124,8 +124,11 @@ function Chat({ messages }) {
   }
 }
 
-export default withAuthenticator(Chat);
+// Wrap the Chat component in withAuthenticator method.
+// Chat component will be rendered only when the user is authenticated.
+// export default withAuthenticator(Chat);
 
+// Server-side rendering
 export async function getServerSideProps({ req }) {
   // wrap the request in a withSSRContext to use Amplify functionality serverside.
   const SSR = withSSRContext({ req });
