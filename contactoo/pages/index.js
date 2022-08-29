@@ -4,7 +4,6 @@ import Image from "next/image";
 import { mainLogo, splashBG, magnifyGlass, smsLogo, emailLogo } from "../public/imageIndex"
 import Chat from "./chat";
 
-
 export default function Home() {
   return (
     <div>
