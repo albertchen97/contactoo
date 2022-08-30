@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "../styles/Message.module.css";
+import styles from "../styles/ChatMessage.module.css";
 
-export default function Message({ message, isMe }) {
+export default function ChatMessage({ message, isMe }) {
   return (
     <div
       className={
