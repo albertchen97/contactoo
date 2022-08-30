@@ -9,11 +9,9 @@ import {
   emailLogo,
 } from "../public/imageIndex";
 import Chat from "./chat";
-// The withAuthenticator wrapper wraps the Home component so that the brwoser will only render the Home page if the user is authenticated (logged in).
-import { withAuthenticator } from "@aws-amplify/ui-react";
 
 // export default function Home() {
-function Home() {
+export default function Home() {
   return (
     <div>
       <Head>
@@ -99,6 +97,3 @@ function Home() {
     </div>
   );
 }
-// Wrap the Home component in withAuthenticator method.
-// Home component will be rendered only when the user is authenticated.
-export default withAuthenticator(Home);
