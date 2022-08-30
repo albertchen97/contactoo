@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/Chat.module.css";
-import { withAuthenticator } from "@aws-amplify/ui-react";
+import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
 import { API, Auth, withSSRContext, graphqlOperation } from "aws-amplify";
 import { listMessages } from "../src/graphql/queries";
 import { createMessage } from "../src/graphql/mutations";
 import { onCreateMessage } from "../src/graphql/subscriptions";
-import Message from "../components/Message";
+import ChatMessage from "../components/ChatMessage";
+// Use the pre-built UI components provided by Amplify UI (https://docs.amplify.aws/lib/auth/emailpassword/q/platform/js/#sign-in)
+import "@aws-amplify/ui-react/styles.css";
 
+// function Chat({ messages }) {
 function Chat({ messages }) {
   const [stateMessages, setStateMessages] = useState([...messages]);
   const [messageText, setMessageText] = useState("");
@@ -52,6 +55,16 @@ function Chat({ messages }) {
     }
     getMessages();
   }, [user]);
+  // // Handles the sign out button.
+  // useEffect(() => {
+  //   async function signOut() {
+  //     try {
+  //       await Auth.signOut();
+  //     } catch (error) {
+  //       console.log("error signing out: ", error);
+  //     }
+  //   }
+  // }, []);
 
   const handleSubmit = async (event) => {
     // Prevent the page from reloading
@@ -91,7 +104,7 @@ function Chat({ messages }) {
               .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
               .map((message) => (
                 // map each message into the message component with message as props
-                <Message
+                <ChatMessage
                   message={message}
                   user={user}
                   // isMe - A Boolean that detects if the current user is the ownser of the message.
@@ -110,11 +123,12 @@ function Chat({ messages }) {
                 required
                 value={messageText}
                 onChange={(e) => setMessageText(e.target.value)}
-                placeholder="💬 Send a message to the world 🌎"
+                placeholder="💬 Send a message to the retailer..."
                 className={styles.textBox}
               />
               <button style={{ marginLeft: "8px" }}>Send</button>
             </form>
+            {/* <button onClick={signOut}>Sign Out</button> */}
           </div>
         </div>
       </div>

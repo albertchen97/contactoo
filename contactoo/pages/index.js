@@ -8,7 +8,6 @@ import {
   smsLogo,
   emailLogo,
 } from "../public/imageIndex";
-import Chat from "./chat";
 
 // export default function Home() {
 export default function Home() {
@@ -91,7 +90,8 @@ export default function Home() {
 
         {/* Live Chat */}
         <button className="fixed bottom-0 right-0 flex items-center h-10 pl-5 pr-5 text-xl text-white bg-black md:right-5 md:h-16 md:text-3xl ">
-          Live Chat
+          {/* Temporarity using "<a href></a>" to link to the chat page */}
+          <a href="http://localhost:3000/chat">Live Chat </a>
         </button>
       </main>
     </div>
