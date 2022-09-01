@@ -9,20 +9,18 @@ import {
   smsLogo,
   emailLogo,
 } from "../public/imageIndex";
-import Chat from "./chat"
+import Chat from "../components/Chat";
 import { API, Auth, withSSRContext, graphqlOperation } from "aws-amplify";
-
 
 // export default function Home() {
 export default function Home({ messages }) {
-
   // state and function for toggling live chat
-  const [showChat, toggleShowChat] = useState(false)
+  const [showChat, toggleShowChat] = useState(false);
 
   const handleShowChat = () => {
-    // 
-    toggleShowChat(showChat ? false : true)
-  }
+    //
+    toggleShowChat(showChat ? false : true);
+  };
 
   return (
     <div>
@@ -102,20 +100,27 @@ export default function Home({ messages }) {
         </div>
 
         {/* Live Chat Toggle */}
-        <button className={"fixed bottom-0 right-0 flex items-center h-10 pl-5 pr-5 text-xl transition-all text-white bg-black md:right-5 md:h-16 md:text-3xl " + (showChat ? "bg-zinc-500" : "")} onClick={handleShowChat}>
-
+        <button
+          className={
+            "fixed bottom-0 right-0 flex items-center h-10 pl-5 pr-5 text-xl transition-all text-white bg-black md:right-5 md:h-16 md:text-3xl " +
+            (showChat ? "bg-zinc-500" : "")
+          }
+          onClick={handleShowChat}>
           Live Chat
         </button>
 
         {/* Live Chat Window */}
-        <div className={(showChat ? " " : "translate-y-full invisible") + "  border-gray-500 border-2 z-30 right-0 md:right-5 fixed md:bottom-16 bottom-10 w-80 h-96 transition-all"}>
+        <div
+          className={
+            (showChat ? "" : "translate-y-full invisible") +
+            "  border-gray-500 border-2 z-30 right-0 md:right-5 fixed md:bottom-16 bottom-10 w-80 h-96 transition-all"
+          }>
           <Chat messages={messages} />
         </div>
       </main>
     </div>
   );
 }
-
 
 // Server-side rendering, only use in pages and not components, used to get db messages to pass into CHAT component
 export async function getServerSideProps({ req }) {
