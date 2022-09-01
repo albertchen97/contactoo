@@ -109,7 +109,7 @@ function Chat({ messages }) {
                 <ChatMessage
                   message={message}
                   user={user}
-                  // isMe - A Boolean that detects if the current user is the ownser of the message.
+                  // isMe - A Boolean that detects if the current user is the owner of the message.
                   isMe={user.username === message.owner}
                   key={message.id}
                 />
