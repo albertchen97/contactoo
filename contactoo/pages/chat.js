@@ -16,6 +16,7 @@ function Chat({ messages }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    // Get the current user's information from Amplify Auth
     const fetchUser = async () => {
       try {
         const amplifyUser = await Auth.currentAuthenticatedUser();
@@ -42,6 +43,7 @@ function Chat({ messages }) {
   }, []);
 
   useEffect(() => {
+    // Get messages from DynamoDB
     async function getMessages() {
       try {
         const messagesReq = await API.graphql({
@@ -97,7 +99,7 @@ function Chat({ messages }) {
     return (
       <div className={styles.background}>
         <div className={styles.container}>
-          <h1 className={styles.title}> AWS Amplify Live Chat</h1>
+          <h1 className={styles.title}> Live Chat with the Retailer</h1>
           <div className={styles.chatbox}>
             {stateMessages
               // sort messages oldest to newest client-side
@@ -143,6 +145,7 @@ function Chat({ messages }) {
 export default withAuthenticator(Chat);
 
 // Server-side rendering
+// Pre-render the chat box
 export async function getServerSideProps({ req }) {
   // wrap the request in a withSSRContext to use Amplify functionality serverside.
   const SSR = withSSRContext({ req });

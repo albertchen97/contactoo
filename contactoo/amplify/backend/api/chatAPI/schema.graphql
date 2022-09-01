@@ -1,16 +1,24 @@
 # This "input" configures a global authorization rule to enable public access to
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+# AWS Schema documentation: https://docs.aws.amazon.com/appsync/latest/devguide/designing-your-schema.html
 
 type Message
   # Create a model tag for the messages in chat with three fields: id, owner, message
   @model
   @auth(
     rules: [
-      # Allow signed in users to perform all actions
+      # Only allow signed in users to perform all actions
       { allow: private }
     ]
   ) {
+  # The exclamation point means the field is required.
   id: ID!
   owner: String!
   message: String!
+}
+
+# Add status for the session
+enum SessionStatus{
+  open
+  closed
 }
