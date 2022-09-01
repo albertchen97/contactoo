@@ -14,11 +14,11 @@ import { API, Auth, withSSRContext, graphqlOperation } from "aws-amplify";
 
 
 // export default function Home() {
-export default function Home({messages}) {
+export default function Home({ messages }) {
 
   // state and function for toggling live chat
   const [showChat, toggleShowChat] = useState(false)
-  
+
   const handleShowChat = () => {
     // 
     toggleShowChat(showChat ? false : true)
@@ -108,8 +108,8 @@ export default function Home({messages}) {
         </button>
 
         {/* Live Chat Window */}
-        <div className={(showChat ? " " : "translate-x-full invisible") + "  border-gray-500 border-2 z-30 right-0 md:right-5 fixed md:bottom-16 bottom-10  w-96 h-96 transition-all"}>
-          <Chat messages={messages}/>
+        <div className={(showChat ? " " : "translate-y-full invisible") + "  border-gray-500 border-2 z-30 right-0 md:right-5 fixed md:bottom-16 bottom-10 w-80 h-96 transition-all"}>
+          <Chat messages={messages} />
         </div>
       </main>
     </div>
@@ -117,7 +117,7 @@ export default function Home({messages}) {
 }
 
 
-// Server-side rendering, only use in pages and not components
+// Server-side rendering, only use in pages and not components, used to get db messages to pass into CHAT component
 export async function getServerSideProps({ req }) {
   // wrap the request in a withSSRContext to use Amplify functionality serverside.
   const SSR = withSSRContext({ req });
