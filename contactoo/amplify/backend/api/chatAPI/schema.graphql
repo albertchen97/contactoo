@@ -2,8 +2,14 @@
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
 # AWS Schema documentation: https://docs.aws.amazon.com/appsync/latest/devguide/designing-your-schema.html
 
+type Session @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  status: String!
+  createdAt: AWSDateTime!
+  messages: [Message]!
+}
+
 type Message
-  # Create a model tag for the messages in chat with three fields: id, owner, message
   @model
   @auth(
     rules: [
