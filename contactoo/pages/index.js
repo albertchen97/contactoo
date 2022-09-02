@@ -9,8 +9,13 @@ import {
   smsLogo,
   emailLogo,
 } from "../public/imageIndex";
-import Chat from "../components/Chat";
 import { API, Auth, withSSRContext, graphqlOperation } from "aws-amplify";
+import Chat from "../components/Chat";
+import Email from "../components/Email";
+import Modal from 'react-modal';
+
+// set modal to root
+Modal.setAppElement('#__next');
 
 // export default function Home() {
 export default function Home({ messages }) {
@@ -21,6 +26,8 @@ export default function Home({ messages }) {
     //
     toggleShowChat(showChat ? false : true);
   };
+
+  const [emailIsOpen, setEmailIsOpen] = useState(false);
 
   return (
     <div>
@@ -83,27 +90,30 @@ export default function Home({ messages }) {
         {/* Bottom tiles for picking service type */}
         <div className="flex flex-wrap justify-center w-11/12 gap-5 md:flex-nowrap md:w-3/4 mt-11 md:mt-14">
           {/* SMS tile */}
-          <a
-            className="flex flex-col items-center justify-center max-w-md p-8 border border-gray-500 hover:border-cyan-500 hover:text-cyan-500 md:p-10 w-72 h-72 md:h-96 md:w-96 rounded-2xl"
-            href="http://localhost:3000/sms">
+          <button
+            className="flex flex-col items-center justify-center max-w-md p-8 border border-gray-500 text-start hover:border-cyan-500 hover:text-cyan-500 md:p-10 w-72 h-72 md:h-96 md:w-96 rounded-2xl"
+          >
             <Image src={smsLogo} />
             <p>Message us regarding your questions, comments, or concerns.</p>
-          </a>
+          </button>
 
           {/* Email tile */}
-          <a
-            className="flex flex-col items-center justify-center max-w-md p-8 border border-gray-500 hover:border-cyan-500 hover:text-cyan-500 md:p-10 w-72 h-72 md:h-96 md:w-96 rounded-2xl"
-            href="http://localhost:3000/email">
+          <button
+            className="flex flex-col items-center justify-center max-w-md p-8 border border-gray-500 text-start hover:border-cyan-500 hover:text-cyan-500 md:p-10 w-72 h-72 md:h-96 md:w-96 rounded-2xl"
+            onClick={() => setEmailIsOpen(true)}
+          >
             <Image src={emailLogo} />
             <p>Email us regarding your questions, comments, or concerns.</p>
-          </a>
+          </button>
+          <Email emailIsOpen={emailIsOpen} setEmailIsOpen={setEmailIsOpen}/>
+
         </div>
 
         {/* Live Chat Toggle */}
         <button
           className={
-            "fixed bottom-0 right-0 flex items-center h-10 pl-5 pr-5 text-xl transition-all text-white bg-black md:right-5 md:h-16 md:text-3xl " +
-            (showChat ? "bg-zinc-500" : "")
+            (showChat ? "bg-zinc-500" : "") +
+            " fixed bottom-0 right-0 flex items-center h-10 pl-5 pr-5 text-xl transition-all text-white bg-black md:right-5 md:h-16 md:text-3xl "
           }
           onClick={handleShowChat}>
           Live Chat
