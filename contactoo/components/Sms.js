@@ -45,13 +45,11 @@ export default function Sms({ smsIsOpen, setSmsIsOpen }) {
         "absolute bg-white w-4/5 md:w-3/4 xl:2/3 z-40 max-w-4xl p-5 pt-20 rounded-2xl"
       }
       isOpen={smsIsOpen}
-      onRequestClose={() => setSmsIsOpen(false)}
-    >
+      onRequestClose={() => setSmsIsOpen(false)}>
       <div className="absolute top-10 right-5 md:right-10">
         <button
           className="text-3xl md:text-5xl"
-          onClick={() => setSmsIsOpen(false)}
-        >
+          onClick={() => setSmsIsOpen(false)}>
           X
         </button>
       </div>
@@ -64,8 +62,7 @@ export default function Sms({ smsIsOpen, setSmsIsOpen }) {
       {/* sms form */}
       <form
         className="flex flex-col items-center justify-center w-full gap-5 text-xl md:text-2xl "
-        onClick={sendText}
-      >
+        onClick={sendText}>
         {/* greeting message */}
         <span className="text-3xl md:text-5xl">What can we help you with?</span>
 
@@ -99,8 +96,7 @@ export default function Sms({ smsIsOpen, setSmsIsOpen }) {
           <input
             className="p-5 text-white hover:cursor-pointer bg-cyan-600"
             type="text"
-            value="Submit"
-          ></input>
+            value="Submit"></input>
         </div>
       </form>
     </Modal>
