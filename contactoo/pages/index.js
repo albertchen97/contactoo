@@ -12,12 +12,13 @@ import {
 import { API, Auth, withSSRContext, graphqlOperation } from "aws-amplify";
 import Chat from "../components/Chat";
 import Email from "../components/Email";
-import Modal from 'react-modal';
-import { ToastContainer } from 'react-toastify';
+import Sms from "../components/Sms";
 
+import Modal from "react-modal";
+import { ToastContainer } from "react-toastify";
 
 // set modal to root
-Modal.setAppElement('#__next');
+Modal.setAppElement("#__next");
 
 // export default function Home() {
 export default function Home({ messages }) {
@@ -30,6 +31,7 @@ export default function Home({ messages }) {
   };
 
   const [emailIsOpen, setEmailIsOpen] = useState(false);
+  const [smsIsOpen, setSmsIsOpen] = useState(false);
 
   return (
     <div>
@@ -83,7 +85,8 @@ export default function Home({ messages }) {
                 <input
                   className="w-full pl-5 pr-16 h-14 md:h-16 rounded-2xl"
                   type={"text"}
-                  placeholder="Search for help"></input>
+                  placeholder="Search for help"
+                ></input>
               </div>
             </form>
           </div>
@@ -94,10 +97,12 @@ export default function Home({ messages }) {
           {/* SMS tile */}
           <button
             className="flex flex-col items-center justify-center max-w-md p-8 border border-gray-500 text-start hover:border-cyan-500 hover:text-cyan-500 md:p-10 w-72 h-72 md:h-96 md:w-96 rounded-2xl"
+            onClick={() => setSmsIsOpen(true)}
           >
             <Image src={smsLogo} />
             <p>Message us regarding your questions, comments, or concerns.</p>
           </button>
+          <Sms smsIsOpen={smsIsOpen} setSmsIsOpen={setSmsIsOpen} />
 
           {/* Email tile */}
           <button
@@ -108,7 +113,6 @@ export default function Home({ messages }) {
             <p>Email us regarding your questions, comments, or concerns.</p>
           </button>
           <Email emailIsOpen={emailIsOpen} setEmailIsOpen={setEmailIsOpen} />
-
         </div>
 
         {/* Live Chat Toggle */}
@@ -117,7 +121,8 @@ export default function Home({ messages }) {
             (showChat ? "bg-zinc-500" : "") +
             " fixed bottom-0 right-0 flex items-center h-10 pl-5 pr-5 text-xl transition-all text-white bg-black md:right-5 md:h-16 md:text-3xl "
           }
-          onClick={handleShowChat}>
+          onClick={handleShowChat}
+        >
           Live Chat
         </button>
 
@@ -126,16 +131,13 @@ export default function Home({ messages }) {
           className={
             (showChat ? "" : "translate-y-full invisible") +
             "  border-gray-500 border-2 z-30 right-0 md:right-5 fixed md:bottom-16 bottom-10 w-80 h-96 transition-all"
-          }>
+          }
+        >
           <Chat messages={messages} />
         </div>
       </main>
 
-      <ToastContainer
-      className={"text-base sm:text-xl"}
-        autoClose={3000}
-      />
-
+      <ToastContainer className={"text-base sm:text-xl"} autoClose={3000} />
     </div>
   );
 }
