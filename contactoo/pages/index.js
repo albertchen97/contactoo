@@ -124,6 +124,8 @@ export default function Home({ messages }) {
 
 // Server-side rendering, only use in pages and not components, used to get db messages to pass into CHAT component
 export async function getServerSideProps({ req }) {
+  console.log("In getServerSideProps(): ");
+
   // wrap the request in a withSSRContext to use Amplify functionality serverside.
   const SSR = withSSRContext({ req });
 
@@ -137,7 +139,7 @@ export async function getServerSideProps({ req }) {
       // use authMode: AMAZON_COGNITO_USER_POOLS to make a request on the current user's behalf
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
-
+    console.log("Successfully got the user authentication information.");
     // return all the messages from the dynamoDB
     return {
       props: {
@@ -147,6 +149,7 @@ export async function getServerSideProps({ req }) {
   } catch (error) {
     // We will end up here if there is no user signed in.
     // We'll just return a list of empty messages.
+    console.log("error in getServerSideProps()", error);
     return {
       props: {
         messages: [],

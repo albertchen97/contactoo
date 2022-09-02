@@ -3,16 +3,13 @@ import styles from "../styles/Chat.module.css";
 import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
 import { API, Auth, withSSRContext, graphqlOperation } from "aws-amplify";
 import { listMessages } from "../src/graphql/queries";
-import { createMessage } from "../src/graphql/mutations";
+import { createMessage, updateMessage } from "../src/graphql/mutations";
 import { onCreateMessage } from "../src/graphql/subscriptions";
 import ChatMessage from "./ChatMessage";
 // Use the pre-built UI components provided by Amplify UI (https://docs.amplify.aws/lib/auth/emailpassword/q/platform/js/#sign-in)
 import "@aws-amplify/ui-react/styles.css";
-// Use uuid to solve the duplicate messages bug
-import { v4 as uuidv4 } from "uuid";
 
-// function Chat({ messages }) {
-export default function Chat({ messages }) {
+function Chat({ messages }) {
   const [stateMessages, setStateMessages] = useState([...messages]);
   const [messageText, setMessageText] = useState("");
   const [user, setUser] = useState(null);
@@ -30,7 +27,8 @@ export default function Chat({ messages }) {
 
     fetchUser();
 
-    // Subscribe to creation of message
+    // Subscribe to the creation of message in DynamoDB table
+    // Update the messages whenever new messages is been sent to the DynamoDB table.
     const subscription = API.graphql(
       graphqlOperation(onCreateMessage)
     ).subscribe({
@@ -42,8 +40,12 @@ export default function Chat({ messages }) {
       },
       error: (error) => console.warn(error),
     });
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
+  // Update the chat messages whenever the user changes.
   useEffect(() => {
     // Get messages from DynamoDB
     async function getMessages() {
@@ -59,24 +61,11 @@ export default function Chat({ messages }) {
     }
     getMessages();
   }, [user]);
-  // // Handles the sign out button.
-  // useEffect(() => {
-  //   async function signOut() {
-  //     try {
-  //       await Auth.signOut();
-  //     } catch (error) {
-  //       console.log("error signing out: ", error);
-  //     }
-  //   }
-  // }, []);
 
   const handleSubmit = async (event) => {
     // Prevent the page from reloading
     event.preventDefault();
-
-    // clear the textbox
     setMessageText("");
-
     const input = {
       // id is auto populated by AWS Amplify
       message: messageText, // the message content the user submitted (from state)
@@ -96,6 +85,7 @@ export default function Chat({ messages }) {
       console.error(err);
     }
   };
+
   if (user) {
     return (
       <div className={styles.background}>
@@ -113,12 +103,11 @@ export default function Chat({ messages }) {
                   // isMe - A Boolean that detects if the current user is the owner of the message.
                   isMe={user.username === message.owner}
                   key={message.id}
-                  // // Solution 1 - Generate a random UUID for each message using the uuidv4() function.
-                  // key={uuidv4()}
                 />
               ))}
           </div>
           <div className={styles.formContainer}>
+            {/* Use form to handle the text submission (the typing bar) */}
             <form onSubmit={handleSubmit} className={styles.formBase}>
               <input
                 type="text"
@@ -133,7 +122,6 @@ export default function Chat({ messages }) {
               />
               <button style={{ marginLeft: "8px" }}>Send</button>
             </form>
-            {/* <button onClick={signOut}>Sign Out</button> */}
           </div>
         </div>
       </div>
@@ -145,38 +133,4 @@ export default function Chat({ messages }) {
 
 // Wrap the Chat component in withAuthenticator method.
 // Chat component will be rendered only when the user is authenticated.
-// export default withAuthenticator(Chat);
-
-// // Server-side rendering
-// // Pre-render the chat box
-// export async function getServerSideProps({ req }) {
-//   // wrap the request in a withSSRContext to use Amplify functionality serverside.
-//   const SSR = withSSRContext({ req });
-
-//   try {
-//     // currentAuthenticatedUser() will throw an error if the user is not signed in.
-//     const user = await SSR.Auth.currentAuthenticatedUser();
-
-//     // If we make it passed the above line, that means the user is signed in.
-//     const response = await SSR.API.graphql({
-//       query: listMessages,
-//       // use authMode: AMAZON_COGNITO_USER_POOLS to make a request on the current user's behalf
-//       authMode: "AMAZON_COGNITO_USER_POOLS",
-//     });
-
-//     // return all the messages from the dynamoDB
-//     return {
-//       props: {
-//         messages: response.data.listMessages.items,
-//       },
-//     };
-//   } catch (error) {
-//     // We will end up here if there is no user signed in.
-//     // We'll just return a list of empty messages.
-//     return {
-//       props: {
-//         messages: [],
-//       },
-//     };
-//   }
-// }
+export default withAuthenticator(Chat);
