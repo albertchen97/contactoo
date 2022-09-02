@@ -1,4 +1,5 @@
 // This is the home page
+import { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import {
@@ -8,9 +9,28 @@ import {
   smsLogo,
   emailLogo,
 } from "../public/imageIndex";
+import { API, Auth, withSSRContext, graphqlOperation } from "aws-amplify";
+import Chat from "../components/Chat";
+import Email from "../components/Email";
+import Modal from 'react-modal';
+import { ToastContainer } from 'react-toastify';
+
+
+// set modal to root
+Modal.setAppElement('#__next');
 
 // export default function Home() {
-export default function Home() {
+export default function Home({ messages }) {
+  // state and function for toggling live chat
+  const [showChat, toggleShowChat] = useState(false);
+
+  const handleShowChat = () => {
+    //
+    toggleShowChat(showChat ? false : true);
+  };
+
+  const [emailIsOpen, setEmailIsOpen] = useState(false);
+
   return (
     <div>
       <Head>
@@ -40,7 +60,7 @@ export default function Home() {
         {/* Middle section with welcome message + search bar */}
         <div className="relative flex items-center justify-center w-full h-64 md:h-80">
           <Image
-            className="object-cover"
+            className="object-cover pointer-events-none"
             src={splashBG}
             layout="fill"
             draggable="false"
@@ -72,28 +92,83 @@ export default function Home() {
         {/* Bottom tiles for picking service type */}
         <div className="flex flex-wrap justify-center w-11/12 gap-5 md:flex-nowrap md:w-3/4 mt-11 md:mt-14">
           {/* SMS tile */}
-          <a
-            className="flex flex-col items-center justify-center max-w-md p-8 border border-gray-500 hover:border-cyan-500 hover:text-cyan-500 md:p-10 w-72 h-72 md:h-96 md:w-96 rounded-2xl"
-            href="http://localhost:3000/sms">
+          <button
+            className="flex flex-col items-center justify-center max-w-md p-8 border border-gray-500 text-start hover:border-cyan-500 hover:text-cyan-500 md:p-10 w-72 h-72 md:h-96 md:w-96 rounded-2xl"
+          >
             <Image src={smsLogo} />
             <p>Message us regarding your questions, comments, or concerns.</p>
-          </a>
+          </button>
 
           {/* Email tile */}
-          <a
-            className="flex flex-col items-center justify-center max-w-md p-8 border border-gray-500 hover:border-cyan-500 hover:text-cyan-500 md:p-10 w-72 h-72 md:h-96 md:w-96 rounded-2xl"
-            href="http://localhost:3000/email">
+          <button
+            className="flex flex-col items-center justify-center max-w-md p-8 border border-gray-500 text-start hover:border-cyan-500 hover:text-cyan-500 md:p-10 w-72 h-72 md:h-96 md:w-96 rounded-2xl"
+            onClick={() => setEmailIsOpen(true)}
+          >
             <Image src={emailLogo} />
             <p>Email us regarding your questions, comments, or concerns.</p>
-          </a>
+          </button>
+          <Email emailIsOpen={emailIsOpen} setEmailIsOpen={setEmailIsOpen} />
+
         </div>
 
-        {/* Live Chat */}
-        <button className="fixed bottom-0 right-0 flex items-center h-10 pl-5 pr-5 text-xl text-white bg-black md:right-5 md:h-16 md:text-3xl ">
-          {/* Temporarity using "<a href></a>" to link to the chat page */}
-          <a href="http://localhost:3000/chat">Live Chat </a>
+        {/* Live Chat Toggle */}
+        <button
+          className={
+            (showChat ? "bg-zinc-500" : "") +
+            " fixed bottom-0 right-0 flex items-center h-10 pl-5 pr-5 text-xl transition-all text-white bg-black md:right-5 md:h-16 md:text-3xl "
+          }
+          onClick={handleShowChat}>
+          Live Chat
         </button>
+
+        {/* Live Chat Window */}
+        <div
+          className={
+            (showChat ? "" : "translate-y-full invisible") +
+            "  border-gray-500 border-2 z-30 right-0 md:right-5 fixed md:bottom-16 bottom-10 w-80 h-96 transition-all"
+          }>
+          <Chat messages={messages} />
+        </div>
       </main>
+
+      <ToastContainer
+      className={"text-base sm:text-xl"}
+        autoClose={3000}
+      />
+
     </div>
   );
+}
+
+// Server-side rendering, only use in pages and not components, used to get db messages to pass into CHAT component
+export async function getServerSideProps({ req }) {
+  // wrap the request in a withSSRContext to use Amplify functionality serverside.
+  const SSR = withSSRContext({ req });
+
+  try {
+    // currentAuthenticatedUser() will throw an error if the user is not signed in.
+    const user = await SSR.Auth.currentAuthenticatedUser();
+
+    // If we make it passed the above line, that means the user is signed in.
+    const response = await SSR.API.graphql({
+      query: listMessages,
+      // use authMode: AMAZON_COGNITO_USER_POOLS to make a request on the current user's behalf
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+    });
+
+    // return all the messages from the dynamoDB
+    return {
+      props: {
+        messages: response.data.listMessages.items,
+      },
+    };
+  } catch (error) {
+    // We will end up here if there is no user signed in.
+    // We'll just return a list of empty messages.
+    return {
+      props: {
+        messages: [],
+      },
+    };
+  }
 }

@@ -5,17 +5,20 @@ import { API, Auth, withSSRContext, graphqlOperation } from "aws-amplify";
 import { listMessages } from "../src/graphql/queries";
 import { createMessage } from "../src/graphql/mutations";
 import { onCreateMessage } from "../src/graphql/subscriptions";
-import ChatMessage from "../components/ChatMessage";
+import ChatMessage from "./ChatMessage";
 // Use the pre-built UI components provided by Amplify UI (https://docs.amplify.aws/lib/auth/emailpassword/q/platform/js/#sign-in)
 import "@aws-amplify/ui-react/styles.css";
+// Use uuid to solve the duplicate messages bug
+import { v4 as uuidv4 } from "uuid";
 
 // function Chat({ messages }) {
-function Chat({ messages }) {
+export default function Chat({ messages }) {
   const [stateMessages, setStateMessages] = useState([...messages]);
   const [messageText, setMessageText] = useState("");
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    // Get the current user's information from Amplify Auth
     const fetchUser = async () => {
       try {
         const amplifyUser = await Auth.currentAuthenticatedUser();
@@ -42,6 +45,7 @@ function Chat({ messages }) {
   }, []);
 
   useEffect(() => {
+    // Get messages from DynamoDB
     async function getMessages() {
       try {
         const messagesReq = await API.graphql({
@@ -92,12 +96,11 @@ function Chat({ messages }) {
       console.error(err);
     }
   };
-
   if (user) {
     return (
       <div className={styles.background}>
         <div className={styles.container}>
-          <h1 className={styles.title}> AWS Amplify Live Chat</h1>
+          <h1 className={styles.title}> Live Chat with the Retailer</h1>
           <div className={styles.chatbox}>
             {stateMessages
               // sort messages oldest to newest client-side
@@ -107,9 +110,11 @@ function Chat({ messages }) {
                 <ChatMessage
                   message={message}
                   user={user}
-                  // isMe - A Boolean that detects if the current user is the ownser of the message.
+                  // isMe - A Boolean that detects if the current user is the owner of the message.
                   isMe={user.username === message.owner}
                   key={message.id}
+                  // // Solution 1 - Generate a random UUID for each message using the uuidv4() function.
+                  // key={uuidv4()}
                 />
               ))}
           </div>
@@ -140,37 +145,38 @@ function Chat({ messages }) {
 
 // Wrap the Chat component in withAuthenticator method.
 // Chat component will be rendered only when the user is authenticated.
-export default withAuthenticator(Chat);
+// export default withAuthenticator(Chat);
 
-// Server-side rendering
-export async function getServerSideProps({ req }) {
-  // wrap the request in a withSSRContext to use Amplify functionality serverside.
-  const SSR = withSSRContext({ req });
+// // Server-side rendering
+// // Pre-render the chat box
+// export async function getServerSideProps({ req }) {
+//   // wrap the request in a withSSRContext to use Amplify functionality serverside.
+//   const SSR = withSSRContext({ req });
 
-  try {
-    // currentAuthenticatedUser() will throw an error if the user is not signed in.
-    const user = await SSR.Auth.currentAuthenticatedUser();
+//   try {
+//     // currentAuthenticatedUser() will throw an error if the user is not signed in.
+//     const user = await SSR.Auth.currentAuthenticatedUser();
 
-    // If we make it passed the above line, that means the user is signed in.
-    const response = await SSR.API.graphql({
-      query: listMessages,
-      // use authMode: AMAZON_COGNITO_USER_POOLS to make a request on the current user's behalf
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    });
+//     // If we make it passed the above line, that means the user is signed in.
+//     const response = await SSR.API.graphql({
+//       query: listMessages,
+//       // use authMode: AMAZON_COGNITO_USER_POOLS to make a request on the current user's behalf
+//       authMode: "AMAZON_COGNITO_USER_POOLS",
+//     });
 
-    // return all the messages from the dynamoDB
-    return {
-      props: {
-        messages: response.data.listMessages.items,
-      },
-    };
-  } catch (error) {
-    // We will end up here if there is no user signed in.
-    // We'll just return a list of empty messages.
-    return {
-      props: {
-        messages: [],
-      },
-    };
-  }
-}
+//     // return all the messages from the dynamoDB
+//     return {
+//       props: {
+//         messages: response.data.listMessages.items,
+//       },
+//     };
+//   } catch (error) {
+//     // We will end up here if there is no user signed in.
+//     // We'll just return a list of empty messages.
+//     return {
+//       props: {
+//         messages: [],
+//       },
+//     };
+//   }
+// }
