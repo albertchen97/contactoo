@@ -40,7 +40,9 @@ function Chat({ messages }) {
       },
       error: (error) => console.warn(error),
     });
+    // Always cleanup your useEffect()
     return () => {
+      // Unsubscribe to the current subscription to avoid duplicate messages
       subscription.unsubscribe();
     };
   }, []);
