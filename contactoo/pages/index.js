@@ -13,6 +13,8 @@ import { API, Auth, withSSRContext, graphqlOperation } from "aws-amplify";
 import Chat from "../components/Chat";
 import Email from "../components/Email";
 import Modal from 'react-modal';
+import { ToastContainer } from 'react-toastify';
+
 
 // set modal to root
 Modal.setAppElement('#__next');
@@ -58,7 +60,7 @@ export default function Home({ messages }) {
         {/* Middle section with welcome message + search bar */}
         <div className="relative flex items-center justify-center w-full h-64 md:h-80">
           <Image
-            className="object-cover"
+            className="object-cover pointer-events-none"
             src={splashBG}
             layout="fill"
             draggable="false"
@@ -105,7 +107,7 @@ export default function Home({ messages }) {
             <Image src={emailLogo} />
             <p>Email us regarding your questions, comments, or concerns.</p>
           </button>
-          <Email emailIsOpen={emailIsOpen} setEmailIsOpen={setEmailIsOpen}/>
+          <Email emailIsOpen={emailIsOpen} setEmailIsOpen={setEmailIsOpen} />
 
         </div>
 
@@ -128,6 +130,12 @@ export default function Home({ messages }) {
           <Chat messages={messages} />
         </div>
       </main>
+
+      <ToastContainer
+      className={"text-base sm:text-xl"}
+        autoClose={3000}
+      />
+
     </div>
   );
 }

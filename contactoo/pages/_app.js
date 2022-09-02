@@ -1,3 +1,4 @@
+import 'react-toastify/dist/ReactToastify.css';
 import "../styles/globals.css";
 import Amplify from "aws-amplify";
 import awsconfig from "../src/aws-exports";

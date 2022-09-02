@@ -1,6 +1,7 @@
 import emailjs from 'emailjs-com';
 import React from 'react';
 import Modal from 'react-modal';
+import { toast } from 'react-toastify';
 
 export default function Email({ emailIsOpen, setEmailIsOpen }) {
   function sendEmail(e) {
@@ -16,9 +17,12 @@ export default function Email({ emailIsOpen, setEmailIsOpen }) {
       .then(
         (result) => {
           console.log(result.text);
+          toast.success("Email successfully sent!")
+          setEmailIsOpen(false)
         },
         (error) => {
           console.log(error.text);
+          toast.error("Unable to send email!")
         }
       );
     e.target.reset();
