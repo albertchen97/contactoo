@@ -7,6 +7,8 @@ export default function Email({ emailIsOpen, setEmailIsOpen }) {
   function sendEmail(e) {
     e.preventDefault();
 
+    console.log(e)
+
     emailjs
       .sendForm(
         'service_rqe32dg',
@@ -57,6 +59,7 @@ export default function Email({ emailIsOpen, setEmailIsOpen }) {
               className="w-full p-3 border-2 border-gray-500"
               type="text"
               name="name"
+              required
             />
           </div>
 
@@ -67,6 +70,7 @@ export default function Email({ emailIsOpen, setEmailIsOpen }) {
               className="w-full p-3 border-2 border-gray-500"
               type="email"
               name="email"
+              required
             />
           </div>
 
@@ -77,6 +81,7 @@ export default function Email({ emailIsOpen, setEmailIsOpen }) {
               className="w-full p-3 border-2 border-gray-500"
               type="text"
               name="issue"
+              required
             />
           </div>
 
@@ -85,7 +90,9 @@ export default function Email({ emailIsOpen, setEmailIsOpen }) {
             Message
             <textarea
               className="w-full p-3 border-2 border-gray-500"
-              name="" />
+              name="message"
+              required
+            />
           </div>
 
           {/* submit button */}
@@ -94,6 +101,7 @@ export default function Email({ emailIsOpen, setEmailIsOpen }) {
               className="p-5 text-white hover:cursor-pointer bg-cyan-600"
               type="submit"
               value="Submit"
+              required
             ></input>
           </div>
           
