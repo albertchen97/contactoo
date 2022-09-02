@@ -7,8 +7,6 @@ const twilio = require("twilio");
 //texting api and twilio requirements
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
-console.log(authToken);
-console.log(accountSid);
 const client = new twilio(accountSid, authToken);
 
 const app = express(); //alias
