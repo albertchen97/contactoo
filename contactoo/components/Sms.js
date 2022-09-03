@@ -4,6 +4,8 @@ import { ThisMonthInstance } from "twilio/lib/rest/api/v2010/account/usage/recor
 
 export default function Sms({ smsIsOpen, setSmsIsOpen }) {
   const [text, setText] = useState("");
+
+  //optional recipient if you want to change who text message is sent to
   // const [recipientValue, setRecipientValue] = useState("");
   // const onChangeHandler = (event) => {
   //   setRecipientValue(event.target.value);
@@ -19,14 +21,14 @@ export default function Sms({ smsIsOpen, setSmsIsOpen }) {
 
   //send text and close window if not empty, then reload page.
   const sendText = () => {
-    // if (recipientValue != "" && text != "")
+    if (text != "") {
+      {
+        fetch(`http://127.0.0.1:4000/send-text?textmessage=${text}`)
+          // , setRecipientValue("")
+          .catch((err) => console.error(err));
 
-    {
-      fetch(`http://127.0.0.1:4000/send-text?textmessage=${text}`)
-        // , setRecipientValue("")
-        .catch((err) => console.error(err));
-
-      setSmsIsOpen(false);
+        setSmsIsOpen(false);
+      }
     }
   };
 
@@ -50,16 +52,17 @@ export default function Sms({ smsIsOpen, setSmsIsOpen }) {
           X
         </button>
       </div>
-
       <form
         id="textform"
         className="flex flex-col items-center justify-center w-full gap-5 text-xl md:text-2xl "
         onSubmit={() => sendText()}
       >
         {/* greeting message */}
-        <span className="text-3xl md:text-5xl">How can we help you?</span>
+        <span className="text-3xl md:text-5xl">
+          Send an SMS for customer support!
+        </span>
 
-        {/* recipient number input */}
+        {/* optional recipient number input */}
         {/* <div className="flex flex-col w-11/12 md:w-3/4 xl:w-2/3">
           Recipient Number
           <input
