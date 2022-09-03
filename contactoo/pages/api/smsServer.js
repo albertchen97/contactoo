@@ -13,9 +13,9 @@ const app = express(); //alias
 
 app.use(cors()); // blocks browser restricting any data
 
-app.get("/message", (req, res) => {
-  res.send("Test server for twilio stuff");
-});
+// app.get("/message", (req, res) => {
+//   res.send("Test server for twilio stuff");
+// });
 
 app.get("/send-text", (req, res) => {
   //_GET variables, passed via query string
@@ -25,7 +25,7 @@ app.get("/send-text", (req, res) => {
   client.messages
     .create({
       body: textmessage,
-      to: recipient,
+      to: "+16314166942", //mock "support" phone number
       from: "+13254201847", //from twilio
     })
     .then((message) => console.log(message.body));
