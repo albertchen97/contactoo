@@ -9,7 +9,9 @@ import {
   smsLogo,
   emailLogo,
 } from "../public/imageIndex";
-import { API, Auth, withSSRContext, graphqlOperation } from "aws-amplify";
+import { withSSRContext } from "aws-amplify";
+// withAuthenticator - Wraps the Home page into an Amplify Authenticator; Home page will be rendered only after the user is signed in.
+import { withAuthenticator } from "@aws-amplify/ui-react";
 import Chat from "../components/Chat";
 import Email from "../components/Email";
 import Sms from "../components/Sms";
@@ -20,13 +22,15 @@ import { ToastContainer } from "react-toastify";
 // set modal to root
 Modal.setAppElement("#__next");
 
-// export default function Home() {
-export default function Home({ messages }) {
+// @function - Home: The Home component is wrapped in the withAuthenticator HOC (Higher Order Component), which will be rendered after the user signs in.
+// @props - messages: All the messages fetched from AWS DynamoDB, and passed by getServerSideProps().
+//        - signOut: The signOut function from Amplify, and passed by withAuthenticator().
+//        - user: The user object, which includes user's email and username, from AWS Cognito, and passed by withAuthenticator().
+function Home({ messages, signOut, user }) {
   // state and function for toggling live chat
   const [showChat, toggleShowChat] = useState(false);
 
   const handleShowChat = () => {
-    //
     toggleShowChat(showChat ? false : true);
   };
 
@@ -51,10 +55,14 @@ export default function Home({ messages }) {
               <Image src={mainLogo} />
               <h1 className="text-3xl font-bold md:text-5xl">Contactoo</h1>
             </div>
-
+            {/* Greeting Message */}
+            {/* "user" is an object that contains the user information fetched from Amazon Cognito and passed in by withAuthenticator(). */}
+            <p>Hello, {user.username}</p>
             {/* sign in button */}
-            <button className="flex items-center justify-center h-10 p-3 text-white bg-black hover:bg-cyan-300 md:h-12 md:p-5 rounded-2xl">
-              Sign In
+            <button
+              className="flex items-center justify-center h-10 p-3 text-white bg-black hover:bg-cyan-300 md:h-12 md:p-5 rounded-2xl"
+              onClick={signOut}>
+              Sign Out
             </button>
           </div>
         </nav>
@@ -85,8 +93,7 @@ export default function Home({ messages }) {
                 <input
                   className="w-full pl-5 pr-16 h-14 md:h-16 rounded-2xl"
                   type={"text"}
-                  placeholder="Search for help"
-                ></input>
+                  placeholder="Search for help"></input>
               </div>
             </form>
           </div>
@@ -97,8 +104,7 @@ export default function Home({ messages }) {
           {/* SMS tile */}
           <button
             className="flex flex-col items-center justify-center max-w-md p-8 border border-gray-500 text-start hover:border-cyan-500 hover:text-cyan-500 md:p-10 w-72 h-72 md:h-96 md:w-96 rounded-2xl"
-            onClick={() => setSmsIsOpen(true)}
-          >
+            onClick={() => setSmsIsOpen(true)}>
             <Image src={smsLogo} />
             <p>Message us regarding your questions, comments, or concerns.</p>
           </button>
@@ -107,8 +113,7 @@ export default function Home({ messages }) {
           {/* Email tile */}
           <button
             className="flex flex-col items-center justify-center max-w-md p-8 border border-gray-500 text-start hover:border-cyan-500 hover:text-cyan-500 md:p-10 w-72 h-72 md:h-96 md:w-96 rounded-2xl"
-            onClick={() => setEmailIsOpen(true)}
-          >
+            onClick={() => setEmailIsOpen(true)}>
             <Image src={emailLogo} />
             <p>Email us regarding your questions, comments, or concerns.</p>
           </button>
@@ -121,8 +126,7 @@ export default function Home({ messages }) {
             (showChat ? "bg-zinc-500" : "") +
             " fixed bottom-0 right-0 flex items-center h-10 pl-5 pr-5 text-xl transition-all text-white bg-black md:right-5 md:h-16 md:text-3xl "
           }
-          onClick={handleShowChat}
-        >
+          onClick={handleShowChat}>
           Live Chat
         </button>
 
@@ -131,8 +135,7 @@ export default function Home({ messages }) {
           className={
             (showChat ? "" : "translate-y-full invisible") +
             "  border-gray-500 border-2 z-30 right-0 md:right-5 fixed md:bottom-16 bottom-10 w-80 h-96 transition-all"
-          }
-        >
+          }>
           <Chat messages={messages} />
         </div>
       </main>
@@ -143,6 +146,7 @@ export default function Home({ messages }) {
 }
 
 // Server-side rendering, only use in pages and not components, used to get db messages to pass into CHAT component
+// https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props
 export async function getServerSideProps({ req }) {
   console.log("In getServerSideProps(): ");
 
@@ -177,3 +181,8 @@ export async function getServerSideProps({ req }) {
     };
   }
 }
+
+// The export must be at the bottom of this file, otherwise Next.js will give you this error:
+// "Error: The default export is not a React Component in page: " / ""
+// StackOverflow Thread: https://stackoverflow.com/questions/59873698/the-default-export-is-not-a-react-component-in-page-nextjs
+export default withAuthenticator(Home);
