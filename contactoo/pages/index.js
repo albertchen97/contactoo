@@ -133,9 +133,10 @@ function Home({ messages, signOut, user }) {
         {/* Live Chat Window */}
         <div
           className={
-            (showChat ? "" : "translate-y-full invisible") +
-            "  border-gray-500 border-2 z-30 right-0 md:right-5 fixed md:bottom-16 bottom-10 w-80 h-96 transition-all"
-          }>
+            (showChat ? "" : "translate-x-full invisible") +
+            "  z-30  right-0 md:right-5 fixed md:bottom-16 bottom-10 w-80 h-96 md:h-[32rem]  transition-all"
+          }
+        >
           <Chat messages={messages} />
         </div>
       </main>

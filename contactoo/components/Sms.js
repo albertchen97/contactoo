@@ -95,8 +95,10 @@ export default function Sms({ smsIsOpen, setSmsIsOpen }) {
         <div className="flex justify-end w-11/12 mb-10 text-2xl md:text-3xl md:w-3/4 xl:w-2/3">
           <input
             className="p-5 text-white hover:cursor-pointer bg-cyan-600"
-            type="text"
-            value="Submit"></input>
+            type="submit"
+            value="Submit"
+            required
+          />
         </div>
       </form>
     </Modal>

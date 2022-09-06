@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import styles from "../styles/Chat.module.css";
 import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
 import { API, Auth, withSSRContext, graphqlOperation } from "aws-amplify";
 import { listMessages } from "../src/graphql/queries";
@@ -90,10 +89,17 @@ export default function Chat({ messages }) {
 
   if (user) {
     return (
-      <div className={styles.background}>
-        <div className={styles.container}>
-          <h1 className={styles.title}> Live Chat with the Retailer</h1>
-          <div className={styles.chatbox}>
+      // chat window
+      <div className="flex justify-center h-full bg-white shadow-2xl">
+
+        {/* chat container */}
+        <div className="flex flex-col items-center justify-center w-full h-full">
+
+          {/* header greeting div */}
+          <div className="w-full p-3 pl-5 text-white bg-gradient-to-r from-black to-slate-100">Chat with us</div>
+
+          {/* chat box containing the messages */}
+          <div className="flex flex-col-reverse w-full h-full pb-4 overflow-y-auto text-sm break-words md:text-lg">
             {stateMessages
               // sort messages oldest to newest client-side
               .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
@@ -108,9 +114,11 @@ export default function Chat({ messages }) {
                 />
               ))}
           </div>
-          <div className={styles.formContainer}>
+
+          {/* form for writing and sending message */}
+          <div className="w-full border-t border-slate-400 h-14">
             {/* Use form to handle the text submission (the typing bar) */}
-            <form onSubmit={handleSubmit} className={styles.formBase}>
+            <form onSubmit={handleSubmit} className="flex items-center justify-between w-full h-full p-2">
               <input
                 type="text"
                 id="message"
@@ -119,10 +127,10 @@ export default function Chat({ messages }) {
                 required
                 value={messageText}
                 onChange={(e) => setMessageText(e.target.value)}
-                placeholder="💬 Send a message to the retailer..."
-                className={styles.textBox}
+                placeholder="Type your messsage here"
+                className="w-full h-full pl-2 pr-2 text-lg focus:outline-none"
               />
-              <button style={{ marginLeft: "8px" }}>Send</button>
+              <button className="ml-2 ">Send</button>
             </form>
           </div>
         </div>
