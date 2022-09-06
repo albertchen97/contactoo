@@ -8,7 +8,7 @@ import ChatMessage from "./ChatMessage";
 // Use the pre-built UI components provided by Amplify UI (https://docs.amplify.aws/lib/auth/emailpassword/q/platform/js/#sign-in)
 import "@aws-amplify/ui-react/styles.css";
 
-function Chat({ messages }) {
+export default function Chat({ messages }) {
   const [stateMessages, setStateMessages] = useState([...messages]);
   const [messageText, setMessageText] = useState("");
   const [user, setUser] = useState(null);
@@ -140,7 +140,3 @@ function Chat({ messages }) {
     return <p>Loading...</p>;
   }
 }
-
-// Wrap the Chat component in withAuthenticator method.
-// Chat component will be rendered only when the user is authenticated.
-export default withAuthenticator(Chat);
