@@ -91,15 +91,15 @@ export default function Chat({ messages }) {
     return (
       // chat window
       <div className="flex justify-center h-full bg-white shadow-2xl">
-        
+
         {/* chat container */}
         <div className="flex flex-col items-center justify-center w-full h-full">
-          
+
           {/* header greeting div */}
           <div className="w-full p-3 pl-5 text-white bg-gradient-to-r from-black to-slate-100">Chat with us</div>
-          
+
           {/* chat box containing the messages */}
-          <div className="flex flex-col-reverse w-full h-full pb-4 overflow-y-auto text-sm md:text-lg">
+          <div className="flex flex-col-reverse w-full h-full pb-4 overflow-y-auto text-sm break-words md:text-lg">
             {stateMessages
               // sort messages oldest to newest client-side
               .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
@@ -114,7 +114,7 @@ export default function Chat({ messages }) {
                 />
               ))}
           </div>
-          
+
           {/* form for writing and sending message */}
           <div className="w-full border-t border-slate-400 h-14">
             {/* Use form to handle the text submission (the typing bar) */}
