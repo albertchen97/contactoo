@@ -3,6 +3,7 @@ import splashBG from './splashBG.png'
 import magnifyGlass from './magnifyGlass.svg'
 import smsLogo from './smsLogo.svg'
 import emailLogo from './emailLogo.svg'
+import sendLogo from './sendLogo.svg'
 
 
 export {
@@ -10,5 +11,6 @@ export {
   splashBG,
   magnifyGlass,
   smsLogo,
-  emailLogo
+  emailLogo,
+  sendLogo
 }
