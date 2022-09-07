@@ -7,6 +7,8 @@ import { onCreateMessage } from "../src/graphql/subscriptions";
 import ChatMessage from "./ChatMessage";
 // Use the pre-built UI components provided by Amplify UI (https://docs.amplify.aws/lib/auth/emailpassword/q/platform/js/#sign-in)
 import "@aws-amplify/ui-react/styles.css";
+import Image from "next/image";
+import { sendLogo } from "../public/imageIndex";
 
 export default function Chat({ messages }) {
   const [stateMessages, setStateMessages] = useState([...messages]);
@@ -118,7 +120,7 @@ export default function Chat({ messages }) {
           {/* form for writing and sending message */}
           <div className="w-full border-t border-slate-400 h-14">
             {/* Use form to handle the text submission (the typing bar) */}
-            <form onSubmit={handleSubmit} className="flex items-center justify-between w-full h-full p-2">
+            <form onSubmit={handleSubmit} className="flex w-full h-full p-2">
               <input
                 type="text"
                 id="message"
@@ -130,7 +132,9 @@ export default function Chat({ messages }) {
                 placeholder="Type your messsage here"
                 className="w-full h-full pl-2 pr-2 text-lg focus:outline-none"
               />
-              <button className="ml-2 ">Send</button>
+              <button className="ml-2">
+                <Image src={sendLogo}/>
+              </button>
             </form>
           </div>
         </div>
