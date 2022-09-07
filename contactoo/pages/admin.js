@@ -26,8 +26,12 @@ export default function Admin() {
           </div>
 
           {/* names of columns  */}
-          <div className="w-full border-b border-gray-500 h-1/2 max-h-28 p-9">
-            Box customer subject status
+          <div className="flex justify-between w-full border-b border-gray-500 h-1/2 max-h-28 p-9">
+            <span>Box</span> 
+            <span>Customer</span> 
+            <span>Subject</span> 
+            <span>Status</span>
+            <span>Chat</span>
           </div>
         </div>
 

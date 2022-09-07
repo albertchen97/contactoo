@@ -90,7 +90,7 @@ export default function Chat({ messages }) {
   if (user) {
     return (
       // chat window
-      <div className="flex justify-center h-full bg-white shadow-2xl">
+      <div className="flex justify-center w-full h-full text-xl bg-white shadow-2xl md:text-2xl">
 
         {/* chat container */}
         <div className="flex flex-col items-center justify-center w-full h-full">
