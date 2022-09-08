@@ -25,7 +25,7 @@ app.get("/send-text", (req, res) => {
   client.messages
     .create({
       body: textmessage,
-      to: "+18334583698", //mock "support" phone number
+      to: "+12064563059", //mock "support" phone number
       from: "+13254201847", //from twilio
     })
     .then((message) => console.log(message.body));
