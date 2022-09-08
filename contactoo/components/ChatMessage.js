@@ -1,18 +1,17 @@
-import React, { useState } from "react";
-import styles from "../styles/ChatMessage.module.css";
+import React, { useEffect, useState } from "react";
 // Use uuid to solve the duplicate messages bug
 import { v4 as uuidv4 } from "uuid";
+import Chat from "./Chat";
 
 export default function ChatMessage({ message, isMe }) {
-  const [displayMessage, setDisplayMessage] = useState("");
-  message.id = uuidv4();
   return (
     <div
       className={
-        isMe ? styles.sentMessageContainer : styles.receivedMessageContainer
+        // if isMe then style as Sender, if notMe then style as Receiver
+        isMe ? "flex break-words flex-col float-right items-end justify-end m-2 ml-9 mr-5": "flex flex-col float-right items-start justify-start m-2 ml-5 mr-9"
       }>
-      <p className={styles.senderText}>{message.owner}</p>
-      <div className={isMe ? styles.sentMessage : styles.receivedMessage}>
+      <p className="mb-2 text-sm text-black/70">{message.owner}</p>
+      <div className={isMe ? "max-w-full p-2 text-white bg-gradient-to-r from-slate-900 to-slate-400 rounded-xl" : "p-2 max-w-full bg-gray-200 text-black rounded-xl"}>
         <p>{message.message}</p>
       </div>
     </div>

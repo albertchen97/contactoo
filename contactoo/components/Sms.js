@@ -55,7 +55,7 @@ export default function Sms({ smsIsOpen, setSmsIsOpen }) {
       <form
         id="textform"
         className="flex flex-col items-center justify-center w-full gap-5 text-xl md:text-2xl "
-        onSubmit={() => sendText()}
+        onClick={sendText}
       >
         {/* greeting message */}
         <span className="text-3xl md:text-5xl">
@@ -93,7 +93,8 @@ export default function Sms({ smsIsOpen, setSmsIsOpen }) {
             className="p-5 text-white hover:cursor-pointer bg-cyan-600"
             type="submit"
             value="Submit"
-          ></input>
+            required
+          />
         </div>
       </form>
     </Modal>
