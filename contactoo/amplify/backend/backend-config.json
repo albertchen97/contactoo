@@ -50,5 +50,12 @@
         }
       }
     }
+  },
+  "function": {
+    "expressSms": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
   }
 }

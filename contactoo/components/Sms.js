@@ -3,35 +3,26 @@ import Modal from "react-modal";
 
 export default function Sms({ smsIsOpen, setSmsIsOpen }) {
   const [text, setText] = useState("");
-  const [recipientValue, setRecipientValue] = useState("");
 
-  const onChangeHandler = (event) => {
-    setRecipientValue(event.target.value);
-  };
+  //optional recipient if you want to change who text message is sent to
+  // const [recipientValue, setRecipientValue] = useState("");
+  // const onChangeHandler = (event) => {
+  //   setRecipientValue(event.target.value);
+  // };
 
   const onChangeHandler2 = (event) => {
     setText(event.target.value);
   };
 
-  const refreshPage = () => {
-    window.location.reload();
-  };
-
+  //send text and close window if not empty, then reload page.
   const sendText = () => {
-    if (recipientValue != "" && text != "") {
-      fetch(
-        `http://127.0.0.1:4000/send-text?recipient=${recipientValue}&textmessage=${text}`
-      )
-        .then((res) => res.json())
-        .then(() => {
-          this.setRecipientValue("");
-          this.setText("");
-        })
-        .catch((err) => console.error(err));
-      setText("");
-      setRecipientValue("");
-      setSmsIsOpen(false);
-      refreshPage();
+    if (text != "") {
+      {
+        fetch(`http://127.0.0.1:4000/send-text?textmessage=${text}`)
+          // , setRecipientValue("")
+          //optional recipient
+          .catch((err) => console.error(err));
+      }
     }
   };
 
@@ -45,29 +36,26 @@ export default function Sms({ smsIsOpen, setSmsIsOpen }) {
         "absolute bg-white w-4/5 md:w-3/4 xl:2/3 z-40 max-w-4xl p-5 pt-20 rounded-2xl"
       }
       isOpen={smsIsOpen}
-      onRequestClose={() => setSmsIsOpen(false)}>
+      onRequestClose={() => setSmsIsOpen(false)}
+    >
       <div className="absolute top-10 right-5 md:right-10">
         <button
           className="text-3xl md:text-5xl"
-          onClick={() => setSmsIsOpen(false)}>
+          onClick={() => setSmsIsOpen(false)}
+        >
           X
         </button>
       </div>
-      {/* <div className="SMS">
-        <div style={{ marginTop: 10 }}>
-          <h2> Send Text Message </h2>
-          <label> Your Phone Number </label>
-          <br /> */}
-
-      {/* sms form */}
       <form
+        id="textform"
         className="flex flex-col items-center justify-center w-full gap-5 text-xl md:text-2xl "
-        onClick={sendText}>
+        onClick={sendText}
+      >
         {/* greeting message */}
-        <span className="text-3xl md:text-5xl">What can we help you with?</span>
+        <span className="text-3xl md:text-5xl">Send a text for help!</span>
 
-        {/* recipient number input */}
-        <div className="flex flex-col w-11/12 md:w-3/4 xl:w-2/3">
+        {/* optional recipient number input */}
+        {/* <div className="flex flex-col w-11/12 md:w-3/4 xl:w-2/3">
           Recipient Number
           <input
             className="w-full p-3 border-2 border-gray-500"
@@ -76,16 +64,16 @@ export default function Sms({ smsIsOpen, setSmsIsOpen }) {
             onChange={onChangeHandler}
             value={recipientValue}
           />
-        </div>
+        </div> */}
 
-        {/* email input */}
+        {/* text input */}
         <div className="flex flex-col w-11/12 md:w-3/4 xl:w-2/3">
-          Text
-          <input
+          SMS Message
+          <textarea
             className="w-full p-3 border-2 border-gray-500"
             type="text"
             name="text"
-            rows="5"
+            rows="3"
             onChange={onChangeHandler2}
             value={text}
           />
