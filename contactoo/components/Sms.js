@@ -1,6 +1,5 @@
 import { React, useState } from "react";
 import Modal from "react-modal";
-import { ThisMonthInstance } from "twilio/lib/rest/api/v2010/account/usage/record/thisMonth";
 
 export default function Sms({ smsIsOpen, setSmsIsOpen }) {
   const [text, setText] = useState("");
@@ -15,19 +14,14 @@ export default function Sms({ smsIsOpen, setSmsIsOpen }) {
     setText(event.target.value);
   };
 
-  // const refreshPage = () => {
-  //   window.location.reload();
-  // };
-
   //send text and close window if not empty, then reload page.
   const sendText = () => {
     if (text != "") {
       {
         fetch(`http://127.0.0.1:4000/send-text?textmessage=${text}`)
           // , setRecipientValue("")
+          //optional recipient
           .catch((err) => console.error(err));
-
-        setSmsIsOpen(false);
       }
     }
   };
@@ -58,9 +52,7 @@ export default function Sms({ smsIsOpen, setSmsIsOpen }) {
         onClick={sendText}
       >
         {/* greeting message */}
-        <span className="text-3xl md:text-5xl">
-          Send an SMS for customer support!
-        </span>
+        <span className="text-3xl md:text-5xl">Send a text for help!</span>
 
         {/* optional recipient number input */}
         {/* <div className="flex flex-col w-11/12 md:w-3/4 xl:w-2/3">
@@ -76,12 +68,12 @@ export default function Sms({ smsIsOpen, setSmsIsOpen }) {
 
         {/* text input */}
         <div className="flex flex-col w-11/12 md:w-3/4 xl:w-2/3">
-          Text
-          <input
-            className="w-full h-40 p-3 border-2 border-gray-500"
+          SMS Message
+          <textarea
+            className="w-full p-3 border-2 border-gray-500"
             type="text"
             name="text"
-            rows="5"
+            rows="3"
             onChange={onChangeHandler2}
             value={text}
           />
