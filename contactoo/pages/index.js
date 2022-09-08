@@ -61,7 +61,8 @@ function Home({ messages, signOut, user }) {
             {/* sign in button */}
             <button
               className="flex items-center justify-center h-10 p-3 text-white bg-black hover:bg-cyan-300 md:h-12 md:p-5 rounded-2xl"
-              onClick={signOut}>
+              onClick={signOut}
+            >
               Sign Out
             </button>
           </div>
@@ -93,7 +94,8 @@ function Home({ messages, signOut, user }) {
                 <input
                   className="w-full pl-5 pr-16 h-14 md:h-16 rounded-2xl"
                   type={"text"}
-                  placeholder="Search for help"></input>
+                  placeholder="Search for help"
+                ></input>
               </div>
             </form>
           </div>
@@ -104,7 +106,8 @@ function Home({ messages, signOut, user }) {
           {/* SMS tile */}
           <button
             className="flex flex-col items-center justify-center max-w-md p-8 border border-gray-500 text-start hover:border-cyan-500 hover:text-cyan-500 md:p-10 w-72 h-72 md:h-96 md:w-96 rounded-2xl"
-            onClick={() => setSmsIsOpen(true)}>
+            onClick={() => setSmsIsOpen(true)}
+          >
             <Image src={smsLogo} />
             <p>Message us regarding your questions, comments, or concerns.</p>
           </button>
@@ -113,7 +116,8 @@ function Home({ messages, signOut, user }) {
           {/* Email tile */}
           <button
             className="flex flex-col items-center justify-center max-w-md p-8 border border-gray-500 text-start hover:border-cyan-500 hover:text-cyan-500 md:p-10 w-72 h-72 md:h-96 md:w-96 rounded-2xl"
-            onClick={() => setEmailIsOpen(true)}>
+            onClick={() => setEmailIsOpen(true)}
+          >
             <Image src={emailLogo} />
             <p>Email us regarding your questions, comments, or concerns.</p>
           </button>
@@ -126,7 +130,8 @@ function Home({ messages, signOut, user }) {
             (showChat ? "bg-zinc-500" : "") +
             " fixed bottom-0 right-0 flex items-center h-10 pl-5 pr-5 text-xl transition-all text-white bg-black md:right-5 md:h-16 md:text-3xl "
           }
-          onClick={handleShowChat}>
+          onClick={handleShowChat}
+        >
           Live Chat
         </button>
 
@@ -137,7 +142,7 @@ function Home({ messages, signOut, user }) {
             "  z-30 right-0 md:right-5 fixed md:bottom-16 bottom-10 w-80 h-96 md:h-[32rem] transition-all"
           }
         >
-          <Chat messages={messages}/>
+          <Chat messages={messages} />
         </div>
       </main>
 
