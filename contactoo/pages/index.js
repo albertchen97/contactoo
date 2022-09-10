@@ -15,7 +15,7 @@ import Sms from "../components/Sms";
 import Admin from "./admin";
 import { listMessages } from "../src/graphql/queries";
 import { withSSRContext } from "aws-amplify";
-
+import { withAuthenticator } from "@aws-amplify/ui-react";
 import Modal from "react-modal";
 import { ToastContainer } from "react-toastify";
 
