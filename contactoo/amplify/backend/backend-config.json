@@ -25,5 +25,17 @@
       }
     }
   },
-  "api": {}
+  "api": {},
+  "interactions": {
+    "lexTestBot1": {
+      "service": "Lex",
+      "providerPlugin": "awscloudformation",
+      "build": true
+    },
+    "lexTestBot2": {
+      "service": "Lex",
+      "providerPlugin": "awscloudformation",
+      "build": true
+    }
+  }
 }

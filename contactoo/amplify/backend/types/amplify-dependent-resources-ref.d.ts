@@ -9,5 +9,17 @@ export type AmplifyDependentResourcesAttributes = {
             "AppClientIDWeb": "string",
             "AppClientID": "string"
         }
+    },
+    "interactions": {
+        "lexTestBot1": {
+            "Region": "string",
+            "BotName": "string",
+            "FunctionArn": "string"
+        },
+        "lexTestBot2": {
+            "Region": "string",
+            "BotName": "string",
+            "FunctionArn": "string"
+        }
     }
 }
