@@ -1,71 +1,49 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getSession = /* GraphQL */ `
-  query GetSession($id: ID!) {
-    getSession(id: $id) {
+export const getRoom = /* GraphQL */ `
+  query GetRoom($id: String!, $roomId: String!) {
+    getRoom(id: $id, roomId: $roomId) {
       id
-      status
-      createdAt
-      messages {
-        id
-        owner
-        message
-        createdAt
-        updatedAt
-      }
-      updatedAt
+      roomId
+      session
+      created
     }
   }
 `;
-export const listSessions = /* GraphQL */ `
-  query ListSessions(
-    $filter: ModelSessionFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listSessions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+export const listRooms = /* GraphQL */ `
+  query ListRooms($id: String!, $limit: Int, $nextToken: String) {
+    listRooms(id: $id, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        status
-        createdAt
-        messages {
-          id
-          owner
-          message
-          createdAt
-          updatedAt
-        }
-        updatedAt
+        roomId
+        session
+        created
       }
       nextToken
     }
   }
 `;
 export const getMessage = /* GraphQL */ `
-  query GetMessage($id: ID!) {
-    getMessage(id: $id) {
-      id
-      owner
+  query GetMessage($roomId: String!, $messageId: String!) {
+    getMessage(roomId: $roomId, messageId: $messageId) {
+      roomId
+      messageId
       message
-      createdAt
-      updatedAt
+      name
+      created
     }
   }
 `;
 export const listMessages = /* GraphQL */ `
-  query ListMessages(
-    $filter: ModelMessageFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listMessages(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  query ListMessages($roomId: String!, $limit: Int, $nextToken: String) {
+    listMessages(roomId: $roomId, limit: $limit, nextToken: $nextToken) {
       items {
-        id
-        owner
+        roomId
+        messageId
         message
-        createdAt
-        updatedAt
+        name
+        created
       }
       nextToken
     }

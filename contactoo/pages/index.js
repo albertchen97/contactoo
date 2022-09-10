@@ -1,26 +1,28 @@
 // This is the home page
-import { useState } from "react";
-import Head from "next/head";
-import Image from "next/image";
+import { useState } from 'react';
+import Head from 'next/head';
+import Image from 'next/image';
 import {
   mainLogo,
   splashBG,
   magnifyGlass,
   smsLogo,
   emailLogo,
-} from "../public/imageIndex";
-import { withSSRContext } from "aws-amplify";
+} from '../public/imageIndex';
 // withAuthenticator - Wraps the Home page into an Amplify Authenticator; Home page will be rendered only after the user is signed in.
-import { withAuthenticator } from "@aws-amplify/ui-react";
-import Chat from "../components/Chat";
-import Email from "../components/Email";
-import Sms from "../components/Sms";
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import Chat from '../components/Chat';
+import Email from '../components/Email';
+import Sms from '../components/Sms';
+import { listMessages } from '../src/graphql/queries';
+import { createMessage, createRoom } from '../src/graphql/mutations';
+import { API, Auth, withSSRContext, graphqlOperation } from 'aws-amplify';
 
-import Modal from "react-modal";
-import { ToastContainer } from "react-toastify";
+import Modal from 'react-modal';
+import { ToastContainer } from 'react-toastify';
 
 // set modal to root
-Modal.setAppElement("#__next");
+Modal.setAppElement('#__next');
 
 // @function - Home: The Home component is wrapped in the withAuthenticator HOC (Higher Order Component), which will be rendered after the user signs in.
 // @props - messages: All the messages fetched from AWS DynamoDB, and passed by getServerSideProps().
@@ -93,7 +95,7 @@ function Home({ messages, signOut, user }) {
                 {/* actually search bar */}
                 <input
                   className="w-full pl-5 pr-16 h-14 md:h-16 rounded-2xl"
-                  type={"text"}
+                  type={'text'}
                   placeholder="Search for help"
                 ></input>
               </div>
@@ -127,8 +129,8 @@ function Home({ messages, signOut, user }) {
         {/* Live Chat Toggle */}
         <button
           className={
-            (showChat ? "bg-zinc-500" : "") +
-            " fixed bottom-0 right-0 flex items-center h-10 pl-5 pr-5 text-xl transition-all text-white bg-black md:right-5 md:h-16 md:text-3xl "
+            (showChat ? 'bg-zinc-500' : '') +
+            ' fixed bottom-0 right-0 flex items-center h-10 pl-5 pr-5 text-xl transition-all text-white bg-black md:right-5 md:h-16 md:text-3xl '
           }
           onClick={handleShowChat}
         >
@@ -138,15 +140,15 @@ function Home({ messages, signOut, user }) {
         {/* Live Chat Window */}
         <div
           className={
-            (showChat ? "" : "translate-x-full invisible") +
-            "  z-30 right-0 md:right-5 fixed md:bottom-16 bottom-10 w-80 h-96 md:h-[32rem] transition-all"
+            (showChat ? '' : 'translate-x-full invisible') +
+            '  z-30 right-0 md:right-5 fixed md:bottom-16 bottom-10 w-80 h-96 md:h-[32rem] transition-all'
           }
         >
           <Chat messages={messages} />
         </div>
       </main>
 
-      <ToastContainer className={"text-base sm:text-xl"} autoClose={3000} />
+      <ToastContainer className={'text-base sm:text-xl'} autoClose={3000} />
     </div>
   );
 }
@@ -154,7 +156,7 @@ function Home({ messages, signOut, user }) {
 // Server-side rendering, only use in pages and not components, used to get db messages to pass into CHAT component
 // https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props
 export async function getServerSideProps({ req }) {
-  console.log("In getServerSideProps(): ");
+  console.log('In getServerSideProps(): ');
 
   // wrap the request in a withSSRContext to use Amplify functionality serverside.
   const SSR = withSSRContext({ req });
@@ -163,13 +165,20 @@ export async function getServerSideProps({ req }) {
     // currentAuthenticatedUser() will throw an error if the user is not signed in.
     const user = await SSR.Auth.currentAuthenticatedUser();
 
+    const messageDetail = {
+      roomId: '1662750113413b864f731-d445-4c76-a0a6-11d072be6e55',
+      limit: 10,
+      nextToken: '',
+    };
+
     // If we make it passed the above line, that means the user is signed in.
     const response = await SSR.API.graphql({
       query: listMessages,
+      variables: messageDetail,
       // use authMode: AMAZON_COGNITO_USER_POOLS to make a request on the current user's behalf
-      authMode: "AMAZON_COGNITO_USER_POOLS",
+      authMode: 'AMAZON_COGNITO_USER_POOLS',
     });
-    console.log("Successfully got the user authentication information.");
+    console.log('Successfully got the user authentication information.');
     // return all the messages from the dynamoDB
     return {
       props: {
@@ -179,7 +188,7 @@ export async function getServerSideProps({ req }) {
   } catch (error) {
     // We will end up here if there is no user signed in.
     // We'll just return a list of empty messages.
-    console.log("error in getServerSideProps()", error);
+    console.log('error in getServerSideProps()', error);
     return {
       props: {
         messages: [],
