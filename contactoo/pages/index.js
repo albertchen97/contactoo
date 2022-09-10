@@ -9,15 +9,13 @@ import {
   smsLogo,
   emailLogo,
 } from "../public/imageIndex";
-// withAuthenticator - Wraps the Home page into an Amplify Authenticator; Home page will be rendered only after the user is signed in.
-import { withAuthenticator } from "@aws-amplify/ui-react";
 import Chat from "../components/Chat";
 import Email from "../components/Email";
 import Sms from "../components/Sms";
 import Admin from "./admin";
 import { listMessages } from "../src/graphql/queries";
 import { withSSRContext } from "aws-amplify";
-
+import { withAuthenticator } from "@aws-amplify/ui-react";
 import Modal from "react-modal";
 import { ToastContainer } from "react-toastify";
 
