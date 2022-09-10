@@ -10,10 +10,11 @@ export type AmplifyDependentResourcesAttributes = {
             "AppClientID": "string"
         }
     },
-    "api": {
-        "ChatAPI": {
-            "GraphQLAPIIdOutput": "string",
-            "GraphQLAPIEndpointOutput": "string"
+    "interactions": {
+        "serviceBot": {
+            "Region": "string",
+            "BotName": "string",
+            "FunctionArn": "string"
         }
     }
 }
