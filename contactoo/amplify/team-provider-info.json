@@ -13,10 +13,17 @@
     },
     "categories": {
       "auth": {
-        "contactoo52adf4ce": {}
+        "contactoo52adf4ce": {},
+        "true": {}
       },
       "function": {
         "expressSms": {}
+      },
+      "interactions": {
+        "serviceBot": {
+          "deploymentBucketName": "amplify-contactoo-dev-140847-deployment",
+          "s3Key": "amplify-builds/serviceBot-2b386f7a556f5a77772f-build.zip"
+        }
       }
     }
   }

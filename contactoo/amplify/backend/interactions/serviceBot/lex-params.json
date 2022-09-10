@@ -1,0 +1,29 @@
+{
+    "resourceName": "serviceBot",
+    "botName": "serviceBot",
+    "intents": [
+        {
+            "slots": [
+                {
+                    "name": "Issue",
+                    "type": "AMAZON.Service",
+                    "prompt": "What issue do you need help with?",
+                    "required": false,
+                    "customType": false
+                }
+            ],
+            "utterances": [
+                "Hi",
+                "Hello",
+                "I need customer service",
+                "I need support",
+                "I need help"
+            ],
+            "intentName": "ProvideOptions",
+            "newSlotTypes": []
+        }
+    ],
+    "outputVoice": false,
+    "sessionTimeout": 5,
+    "coppa": false
+}
