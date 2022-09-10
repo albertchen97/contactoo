@@ -11,12 +11,7 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "interactions": {
-        "lexTestBot1": {
-            "Region": "string",
-            "BotName": "string",
-            "FunctionArn": "string"
-        },
-        "lexTestBot2": {
+        "serviceBot": {
             "Region": "string",
             "BotName": "string",
             "FunctionArn": "string"

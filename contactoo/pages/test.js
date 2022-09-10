@@ -1,25 +1,37 @@
-import React, { useEffect } from 'react'
-
-import { AmplifyChatbot } from '@aws-amplify/ui-react/legacy';
+import React, { useState, useEffect } from 'react'
 import { Interactions } from 'aws-amplify';
 
-let userInput = "Roses";
-const response = async () => {
-  try {
-    const data = await Interactions.send("OrderFlowers_dev", userInput)
-    console.log(data.message);
-    return data
-  }
-  catch (err) {
-    console.error(err)
-  }
-}
-console.log(response())
-
 export default function test() {
-  // Log chatbot response
+  const [userInput, setUserInput] = useState("")
+
+  const response = async (userInput) => {
+    try {
+      const data = await Interactions.send("serviceBot_dev", userInput)
+      return data.message
+    }
+    catch (err) {
+      console.error(err)
+    }
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    const msg = await response(userInput)
+    console.log(msg)
+  }
 
   return (
-    <div>test</div>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Type here"
+          onChange={(e) => setUserInput(e.target.value)}
+          required
+        />
+
+        <button>submit</button>
+      </form>
+    </div>
   );
 }

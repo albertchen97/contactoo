@@ -20,13 +20,9 @@
         "expressSms": {}
       },
       "interactions": {
-        "lexTestBot1": {
+        "serviceBot": {
           "deploymentBucketName": "amplify-contactoo-dev-140847-deployment",
-          "s3Key": "amplify-builds/lexTestBot1-68396434464855705961-build.zip"
-        },
-        "lexTestBot2": {
-          "deploymentBucketName": "amplify-contactoo-dev-140847-deployment",
-          "s3Key": "amplify-builds/lexTestBot2-6e7742494b4876473345-build.zip"
+          "s3Key": "amplify-builds/serviceBot-2b386f7a556f5a77772f-build.zip"
         }
       }
     }

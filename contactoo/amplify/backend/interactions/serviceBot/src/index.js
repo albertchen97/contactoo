@@ -5,7 +5,7 @@ const lambdaClient = new aws.Lambda({ apiVersion: '2017-04-19' });
 exports.handler = function(event, context) {
     const lex = new aws.LexModelBuildingService({ apiVersion: '2017-04-19', region: event.ResourceProperties.lexRegion });
     if (event.RequestType == 'Delete') {
-        let botName = "OrderFlowers";
+        let botName = "serviceBot";
         if(process.env.ENV && process.env.ENV !== "NONE") {
             botName = botName + '_' + process.env.ENV;
         }
@@ -25,58 +25,25 @@ exports.handler = function(event, context) {
     let newSlotTypeParams = [
         
         
-        {
-            "name": "FlowerTypes",
-            "description": "Types of flowers to pick up",
-            "enumerationValues": [
-                
-                {
-                    "value": "tulips"
-                },
-                
-                {
-                    "value": "lillies"
-                },
-                
-                {
-                    "value": "roses"
-                },
-                
-            ]
-        },
-        
         
     ];
     let intentParams = [
         
         {
-            "name": "OrderFlowers" + "_" + process.env.ENV,
-            
-            "confirmationPrompt": {
-                "maxAttempts": 2,
-                "messages": [
-                    {
-                        "content": "Okay, your {FlowerType} will be ready for pickup by {PickupTime} on {PickupDate}. Does this sound okay?",
-                        "contentType": "PlainText"
-                    }
-                ]
-            },
+            "name": "ProvideOptions" + "_" + process.env.ENV,
             
             
-            "rejectionStatement": {
-                "messages": [
-                    {
-                    "content": "Okay, I will not place your order.",
-                    "contentType": "PlainText"
-                    }
-                ]
-            },
-        
             "sampleUtterances": [
             
-                "I would like to order some flowers",
+                "Hi",
             
-                "I would like to pick up flowers",
+                "Hello",
+            
+                "I need customer service",
+            
+                "I need support",
+            
+                "I need help",
             
             ],
         
@@ -87,50 +54,16 @@ exports.handler = function(event, context) {
             "slots": [
                 
                 {
-                    "name": "FlowerType",
-                    "slotConstraint": "Required",
+                    "name": "Issue",
+                    "slotConstraint": "Optional",
                     "priority": 0,
-                    "slotType": "FlowerTypes",
-                    "slotTypeVersion": "$LATEST",
-                    "valueElicitationPrompt": {
-                        "maxAttempts": 3,
-                        "messages": [
-                            {
-                                "content": "What type of flowers would you like to order?",
-                                "contentType": "PlainText"
-                            }
-                        ]
-                    }
-                },
-                
-                {
-                    "name": "PickupDate",
-                    "slotConstraint": "Required",
-                    "priority": 1,
-                    "slotType": "AMAZON.DATE",
+                    "slotType": "AMAZON.Service",
                     
                     "valueElicitationPrompt": {
                         "maxAttempts": 3,
                         "messages": [
                             {
-                                "content": "What day do you want the {FlowerType} to be picked up?",
-                                "contentType": "PlainText"
-                            }
-                        ]
-                    }
-                },
-                
-                {
-                    "name": "PickupTime",
-                    "slotConstraint": "Required",
-                    "priority": 2,
-                    "slotType": "AMAZON.TIME",
-                    
-                    "valueElicitationPrompt": {
-                        "maxAttempts": 3,
-                        "messages": [
-                            {
-                                "content": "At what time do you want the {FlowerType} to be picked up?",
+                                "content": "What issue do you need help with?",
                                 "contentType": "PlainText"
                             }
                         ]
@@ -141,7 +74,7 @@ exports.handler = function(event, context) {
         },
         
     ];
-    let botName = "OrderFlowers";
+    let botName = "serviceBot";
     if(process.env.ENV && process.env.ENV !== "NONE") {
       botName = botName + '_' + process.env.ENV;
     }
@@ -151,7 +84,7 @@ exports.handler = function(event, context) {
         "intents": [
         
             {
-                "intentName": "OrderFlowers" + "_" + process.env.ENV,
+                "intentName": "ProvideOptions" + "_" + process.env.ENV,
                 "intentVersion": "$LATEST"
             },
         
@@ -183,8 +116,6 @@ exports.handler = function(event, context) {
                 }
             ]
         },
-        
-        "voiceId": "Matthew",
         
         
         "idleSessionTTLInSeconds": "300"
@@ -335,7 +266,7 @@ function ensureLambdaFunctionAccess(intent){
 
         const params = {
             FunctionName: lambdaName,
-            StatementId: `Lex-${intent.name}`+ "4901ce10",
+            StatementId: `Lex-${intent.name}`+ "444a4902",
             Action: 'lambda:InvokeFunction',
             Principal: 'lex.amazonaws.com',
             SourceArn: `arn:aws:lex:${region}:${accountId}:intent:${intent.name}:*`,
