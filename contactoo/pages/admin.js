@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import CustomerList from "../components/CustomerList";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import Head from "next/head";
-import { Auth, withSSRContext } from "aws-amplify";
+import { withSSRContext } from "aws-amplify";
 import "@aws-amplify/ui-react/styles.css";
 import Image from "next/image";
 import { mainLogo } from "../public/imageIndex";
 
-function Admin({ messages, signOut, user }) {
+function Admin({ signOut, user }) {
   return (
     <main className="flex flex-row w-screen text-xl md:text-2xl">
       <Head>
@@ -82,6 +82,7 @@ export async function getServerSideProps({ req }) {
     // List the users in the Amazon Cognito user pool.
     const ListUsers = {
       AttributesToGet: ["string"],
+      Filter: [""],
     };
 
     // If we make it passed the above line, that means the user is signed in.
