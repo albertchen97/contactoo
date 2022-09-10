@@ -9,6 +9,7 @@ import ChatMessage from './ChatMessage';
 import '@aws-amplify/ui-react/styles.css';
 import Image from 'next/image';
 import { sendLogo } from '../public/imageIndex';
+import { Interactions } from 'aws-amplify';
 
 export default function Chat({ messages }) {
   const [stateMessages, setStateMessages] = useState([...messages]);
@@ -68,6 +69,22 @@ export default function Chat({ messages }) {
     getMessages();
   }, [user]);
 
+
+  // talk to LEX bot API // ====================================================================
+  const [enableBot, setEnableBot] = useState(true)
+
+  const botResponse = async (userInput) => {
+    try {
+      const data = await Interactions.send("serviceBot_dev", userInput)
+      return data
+    }
+    catch (err) {
+      console.error(err)
+    }
+  }
+  // =============================================================================================
+
+
   const handleSubmit = async (event) => {
     // Prevent the page from reloading
     event.preventDefault();
@@ -88,6 +105,24 @@ export default function Chat({ messages }) {
           input: input,
         },
       });
+
+      // talk to LEX bot API // ====================================================================
+      const botReplyData = await botResponse(messageText)
+      const botReply = botReplyData.message
+      const botInput = {
+        message: botReply,
+        name: "ChatBot",
+        roomId: '1662750113413b864f731-d445-4c76-a0a6-11d072be6e55',
+      };
+      await API.graphql({
+        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        query: createMessage,
+        variables: {
+          input: botInput,
+        },
+      });
+      // talk to LEX bot API // ====================================================================
+      
     } catch (err) {
       console.error(err);
     }
