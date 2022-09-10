@@ -6,9 +6,9 @@ export default function CustomerList({ user }) {
 
   return (
     <ul className="w-full h-full divide-y divide-gray-500 ">
-      <CustomerTicket name={user.username} email={user.email} />
-      <CustomerTicket name="Jone" email="Jone@gmail" />
-      <CustomerTicket name="Reallylongname" email="Reallylongname@gmail" />
+      <CustomerTicket name="Tom" email="tom@gmail.com" />
+      <CustomerTicket name="Jone" email="Jone@gmail.com" />
+      <CustomerTicket name="Reallylongname" email="Reallylongname@gmail.com" />
     </ul>
   );
 }
