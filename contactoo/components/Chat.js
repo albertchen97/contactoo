@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
-import { API, Auth, withSSRContext, graphqlOperation } from "aws-amplify";
-import { listMessages } from "../src/graphql/queries";
-import { createMessage, updateMessage } from "../src/graphql/mutations";
-import { onCreateMessage } from "../src/graphql/subscriptions";
-import ChatMessage from "./ChatMessage";
+import React, { useEffect, useState } from 'react';
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+import { API, Auth, withSSRContext, graphqlOperation } from 'aws-amplify';
+import { listMessages } from '../src/graphql/queries';
+import { createMessage, updateMessage } from '../src/graphql/mutations';
+import { onCreateMessage } from '../src/graphql/subscriptions';
+import ChatMessage from './ChatMessage';
 // Use the pre-built UI components provided by Amplify UI (https://docs.amplify.aws/lib/auth/emailpassword/q/platform/js/#sign-in)
-import "@aws-amplify/ui-react/styles.css";
-import Image from "next/image";
-import { sendLogo } from "../public/imageIndex";
+import '@aws-amplify/ui-react/styles.css';
+import Image from 'next/image';
+import { sendLogo } from '../public/imageIndex';
 
 export default function Chat({ messages }) {
   const [stateMessages, setStateMessages] = useState([...messages]);
-  const [messageText, setMessageText] = useState("");
+  const [messageText, setMessageText] = useState('');
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -28,10 +28,13 @@ export default function Chat({ messages }) {
 
     fetchUser();
 
+    const createMessageInput = {
+      roomId: '1662750113413b864f731-d445-4c76-a0a6-11d072be6e55',
+    };
     // Subscribe to the creation of message in DynamoDB table
     // Update the messages whenever new messages is been sent to the DynamoDB table.
     const subscription = API.graphql(
-      graphqlOperation(onCreateMessage)
+      graphqlOperation(onCreateMessage, createMessageInput)
     ).subscribe({
       next: ({ provider, value }) => {
         setStateMessages((stateMessages) => [
@@ -55,7 +58,7 @@ export default function Chat({ messages }) {
       try {
         const messagesReq = await API.graphql({
           query: listMessages,
-          authMode: "AMAZON_COGNITO_USER_POOLS",
+          authMode: 'AMAZON_COGNITO_USER_POOLS',
         });
         setStateMessages([...messagesReq.data.listMessages.items]);
       } catch (error) {
@@ -68,17 +71,18 @@ export default function Chat({ messages }) {
   const handleSubmit = async (event) => {
     // Prevent the page from reloading
     event.preventDefault();
-    setMessageText("");
+    setMessageText('');
     const input = {
       // id is auto populated by AWS Amplify
       message: messageText, // the message content the user submitted (from state)
-      owner: user.username, // this is the username of the current user
+      name: user.username, // this is the username of the current user
+      roomId: '1662750113413b864f731-d445-4c76-a0a6-11d072be6e55',
     };
 
     // Try make the mutation to graphql API
     try {
       await API.graphql({
-        authMode: "AMAZON_COGNITO_USER_POOLS",
+        authMode: 'AMAZON_COGNITO_USER_POOLS',
         query: createMessage,
         variables: {
           input: input,
@@ -93,25 +97,25 @@ export default function Chat({ messages }) {
     return (
       // chat window
       <div className="flex justify-center w-full h-full text-xl bg-white shadow-2xl md:text-2xl">
-
         {/* chat container */}
         <div className="flex flex-col items-center justify-center w-full h-full">
-
           {/* header greeting div */}
-          <div className="w-full p-3 pl-5 text-white bg-gradient-to-r from-black to-slate-100">Chat with us</div>
+          <div className="w-full p-3 pl-5 text-white bg-gradient-to-r from-black to-slate-100">
+            Chat with us
+          </div>
 
           {/* chat box containing the messages */}
           <div className="flex flex-col-reverse w-full h-full pb-4 overflow-y-auto text-sm break-words md:text-lg">
             {stateMessages
               // sort messages oldest to newest client-side
-              .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+              .sort((a, b) => b.created.localeCompare(a.created))
               .map((message) => (
                 // map each message into the message component with message as props
                 <ChatMessage
                   message={message}
                   user={user}
                   // isMe - A Boolean that detects if the current user is the owner of the message.
-                  isMe={user.username === message.owner}
+                  isMe={user.username === message.name}
                   key={message.id}
                 />
               ))}
@@ -133,7 +137,7 @@ export default function Chat({ messages }) {
                 className="w-full h-full pl-2 pr-2 text-lg focus:outline-none"
               />
               <button className="ml-2">
-                <Image src={sendLogo}/>
+                <Image src={sendLogo} />
               </button>
             </form>
           </div>

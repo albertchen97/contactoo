@@ -1,5 +1,5 @@
 projects:
-  ChatAPI:
+  'AWS Chat ':
     schemaPath: src/graphql/schema.json
     includes:
       - src/graphql/**/*.js
@@ -10,6 +10,9 @@ projects:
         codeGenTarget: javascript
         generatedFileName: ''
         docsFilePath: src/graphql
+        region: us-east-1
+        apiId: vyzh2kodk5aeff4skt66yrvawm
+        maxDepth: 2
 extensions:
   amplify:
     version: 3

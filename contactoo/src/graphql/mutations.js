@@ -1,105 +1,66 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createSession = /* GraphQL */ `
-  mutation CreateSession(
-    $input: CreateSessionInput!
-    $condition: ModelSessionConditionInput
-  ) {
-    createSession(input: $input, condition: $condition) {
+export const createRoom = /* GraphQL */ `
+  mutation CreateRoom($input: CreateRoomInput!) {
+    createRoom(input: $input) {
       id
-      status
-      createdAt
-      messages {
-        id
-        owner
-        message
-        createdAt
-        updatedAt
-      }
-      updatedAt
+      roomId
+      session
+      created
     }
   }
 `;
-export const updateSession = /* GraphQL */ `
-  mutation UpdateSession(
-    $input: UpdateSessionInput!
-    $condition: ModelSessionConditionInput
-  ) {
-    updateSession(input: $input, condition: $condition) {
+export const updateRoom = /* GraphQL */ `
+  mutation UpdateRoom($input: UpdateRoomInput!) {
+    updateRoom(input: $input) {
       id
-      status
-      createdAt
-      messages {
-        id
-        owner
-        message
-        createdAt
-        updatedAt
-      }
-      updatedAt
+      roomId
+      session
+      created
     }
   }
 `;
-export const deleteSession = /* GraphQL */ `
-  mutation DeleteSession(
-    $input: DeleteSessionInput!
-    $condition: ModelSessionConditionInput
-  ) {
-    deleteSession(input: $input, condition: $condition) {
+export const deleteRoom = /* GraphQL */ `
+  mutation DeleteRoom($input: DeleteRoomInput!) {
+    deleteRoom(input: $input) {
       id
-      status
-      createdAt
-      messages {
-        id
-        owner
-        message
-        createdAt
-        updatedAt
-      }
-      updatedAt
+      roomId
+      session
+      created
     }
   }
 `;
 export const createMessage = /* GraphQL */ `
-  mutation CreateMessage(
-    $input: CreateMessageInput!
-    $condition: ModelMessageConditionInput
-  ) {
-    createMessage(input: $input, condition: $condition) {
-      id
-      owner
+  mutation CreateMessage($input: CreateMessageInput!) {
+    createMessage(input: $input) {
+      roomId
+      messageId
       message
-      createdAt
-      updatedAt
+      name
+      created
     }
   }
 `;
 export const updateMessage = /* GraphQL */ `
-  mutation UpdateMessage(
-    $input: UpdateMessageInput!
-    $condition: ModelMessageConditionInput
-  ) {
-    updateMessage(input: $input, condition: $condition) {
-      id
-      owner
+  mutation UpdateMessage($input: UpdateMessageInput!) {
+    updateMessage(input: $input) {
+      roomId
+      messageId
       message
-      createdAt
-      updatedAt
+      name
+      created
     }
   }
 `;
 export const deleteMessage = /* GraphQL */ `
-  mutation DeleteMessage(
-    $input: DeleteMessageInput!
-    $condition: ModelMessageConditionInput
-  ) {
-    deleteMessage(input: $input, condition: $condition) {
-      id
-      owner
+  mutation DeleteMessage($input: DeleteMessageInput!) {
+    deleteMessage(input: $input) {
+      roomId
+      messageId
       message
-      createdAt
-      updatedAt
+      name
+      created
     }
   }
 `;
