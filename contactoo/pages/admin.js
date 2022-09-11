@@ -41,12 +41,11 @@ function Admin({ signOut, user }) {
           </div>
 
           {/* names of columns  */}
-          <div className="flex justify-between w-full border-b border-gray-500 h-1/2 max-h-28 p-9">
-            <span>Box</span>
-            <span>Customer</span>
-            <span>Subject</span>
-            <span>Status</span>
-            <span>Chat</span>
+          <div className="flex w-full border-b border-gray-500 justify-evenly h-1/2 max-h-28 pt-9 pb-9 pl-9">
+            <div className="flex items-center justify-center w-1/6">Customer</div>
+            <div className="flex items-center justify-center w-2/6">Subject</div>
+            <div className="flex items-center justify-center w-1/6">Status</div>
+            <div className="flex items-center justify-center w-1/6">Chat</div>
           </div>
         </div>
 
