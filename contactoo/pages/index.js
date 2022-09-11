@@ -18,6 +18,7 @@ import { withSSRContext } from "aws-amplify";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import Modal from "react-modal";
 import { ToastContainer } from "react-toastify";
+import { createRoom } from "../src/graphql/mutations"
 
 // set modal to root
 Modal.setAppElement("#__next");
@@ -32,27 +33,6 @@ function Home({ messages, roomId, signOut, user }) {
 
   const handleShowChat = () => {
     toggleShowChat(showChat ? false : true);
-  };
-
-  const createRoom = async () => {
-    try {
-      const user = await SSR.Auth.currentAuthenticatedUser();
-
-      const roomDetail = {
-        id: '1234',
-        session: 'open',
-      };
-
-      const roomResponse = await SSR.API.graphql({
-        query: createRoom,
-        variables: { input: roomDetail },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
-      });
-
-      console.log('roomResponse: ', roomResponse.data);
-    } catch (error) {
-      console.log('error creating room: ', error);
-    }
   };
 
   const [emailIsOpen, setEmailIsOpen] = useState(false);
@@ -173,6 +153,8 @@ function Home({ messages, roomId, signOut, user }) {
 // Server-side rendering, only use in pages and not components, used to get db messages to pass into CHAT component
 // https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props
 export async function getServerSideProps({ req }) {
+  let enableBot = false
+
   console.log("In getServerSideProps(): ");
 
   // wrap the request in a withSSRContext to use Amplify functionality serverside.
