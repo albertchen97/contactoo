@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
-import { API, Auth, withSSRContext, graphqlOperation } from 'aws-amplify';
-import { listMessages } from '../src/graphql/queries';
-import { createMessage, updateMessage } from '../src/graphql/mutations';
-import { onCreateMessage } from '../src/graphql/subscriptions';
-import ChatMessage from './ChatMessage';
+import React, { useEffect, useState } from "react";
+import { API, Auth, graphqlOperation } from "aws-amplify";
+import { listMessages } from "../src/graphql/queries";
+import { createMessage } from "../src/graphql/mutations";
+import { onCreateMessage } from "../src/graphql/subscriptions";
+import ChatMessage from "./ChatMessage";
 // Use the pre-built UI components provided by Amplify UI (https://docs.amplify.aws/lib/auth/emailpassword/q/platform/js/#sign-in)
 import '@aws-amplify/ui-react/styles.css';
 import Image from 'next/image';
 import { sendLogo } from '../public/imageIndex';
+import { Interactions } from 'aws-amplify';
+
 
 export default function Chat({ messages }) {
   const [stateMessages, setStateMessages] = useState([...messages]);
-  const [messageText, setMessageText] = useState('');
+  const [messageText, setMessageText] = useState("");
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function Chat({ messages }) {
     fetchUser();
 
     const createMessageInput = {
-      roomId: '1662750113413b864f731-d445-4c76-a0a6-11d072be6e55',
+      roomId: "1662750113413b864f731-d445-4c76-a0a6-11d072be6e55",
     };
     // Subscribe to the creation of message in DynamoDB table
     // Update the messages whenever new messages is been sent to the DynamoDB table.
@@ -58,7 +59,7 @@ export default function Chat({ messages }) {
       try {
         const messagesReq = await API.graphql({
           query: listMessages,
-          authMode: 'AMAZON_COGNITO_USER_POOLS',
+          authMode: "AMAZON_COGNITO_USER_POOLS",
         });
         setStateMessages([...messagesReq.data.listMessages.items]);
       } catch (error) {
@@ -68,26 +69,60 @@ export default function Chat({ messages }) {
     getMessages();
   }, [user]);
 
+
+  // talk to LEX bot API // ====================================================================
+  const [enableBot, setEnableBot] = useState(true)
+
+  const botResponse = async (userInput) => {
+    try {
+      const data = await Interactions.send("serviceBot_dev", userInput)
+      return data
+    }
+    catch (err) {
+      console.error(err)
+    }
+  }
+  // =============================================================================================
+
+
   const handleSubmit = async (event) => {
     // Prevent the page from reloading
     event.preventDefault();
-    setMessageText('');
+    setMessageText("");
     const input = {
       // id is auto populated by AWS Amplify
       message: messageText, // the message content the user submitted (from state)
       name: user.username, // this is the username of the current user
-      roomId: '1662750113413b864f731-d445-4c76-a0a6-11d072be6e55',
+      roomId: "1662750113413b864f731-d445-4c76-a0a6-11d072be6e55",
     };
 
     // Try make the mutation to graphql API
     try {
       await API.graphql({
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        authMode: "AMAZON_COGNITO_USER_POOLS",
         query: createMessage,
         variables: {
           input: input,
         },
       });
+
+      // talk to LEX bot API // ====================================================================
+      const botReplyData = await botResponse(messageText)
+      const botReply = botReplyData.message
+      const botInput = {
+        message: botReply,
+        name: "ChatBot",
+        roomId: '1662750113413b864f731-d445-4c76-a0a6-11d072be6e55',
+      };
+      await API.graphql({
+        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        query: createMessage,
+        variables: {
+          input: botInput,
+        },
+      });
+      // talk to LEX bot API // ====================================================================
+      
     } catch (err) {
       console.error(err);
     }
