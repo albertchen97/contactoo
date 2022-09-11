@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
+import { API, Auth, withSSRContext, graphqlOperation } from 'aws-amplify';
 
-export default function CustomerTicket({ name, email }) {
-
-  const handleShowChat = () => {
-    var chatWindow = window.open("/chatpopup", "", "width=512, height=512, top=300, left=600");
+export default function CustomerTicket({ name, email, roomId }) {
+  const handleShowChat = (event) => {
+    const roomId = event.target.getAttribute('roomId');
+    var chatWindow = window.open(
+      `/chatpopup?roomId=${roomId}`,
+      '',
+      'width=512, height=512, top=300, left=600'
+    );
   };
 
   return (
@@ -21,7 +26,7 @@ export default function CustomerTicket({ name, email }) {
 
         {/* subject description */}
         <div className="flex items-center w-2/6 p-3 overflow-auto text-xl border-2 border-dashed border-slate-200 h-4/5">
-          place holder text place holder text place holderplace holder text place holder text place holderplace holder text place holder text place holderplace holder text place holder text place holder
+          {roomId}
         </div>
 
         {/* status? */}
@@ -31,19 +36,17 @@ export default function CustomerTicket({ name, email }) {
           </div>
         </div>
 
-
         {/* open chat button */}
         <div className="flex justify-center w-1/6">
-          <button className="h-10 pl-5 pr-5 text-xl text-white bg-black md:h-16 md:text-2xl"
+          <button 
+            className="h-10 pl-5 pr-5 text-xl text-white bg-black md:h-16 md:text-2xl"
+            roomId={roomId}
             onClick={handleShowChat}
           >
             Live Chat
           </button>
         </div>
-
       </div>
     </li>
-
-
-  )
+  );
 }

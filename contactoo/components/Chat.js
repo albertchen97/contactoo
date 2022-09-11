@@ -11,14 +11,16 @@ import { sendLogo } from '../public/imageIndex';
 import { Interactions } from 'aws-amplify';
 
 
-export default function Chat({ messages }) {
+export default function Chat({ messages, roomId }) {
   const [stateMessages, setStateMessages] = useState([...messages]);
   const [messageText, setMessageText] = useState("");
   const [user, setUser] = useState(null);
-
+  const [enableBot, setEnableBot] = useState(true)
+  
   useEffect(() => {
     // Get the current user's information from Amplify Auth
     const fetchUser = async () => {
+      console.log(roomId);
       try {
         const amplifyUser = await Auth.currentAuthenticatedUser();
         setUser(amplifyUser);
@@ -30,7 +32,7 @@ export default function Chat({ messages }) {
     fetchUser();
 
     const createMessageInput = {
-      roomId: "1662750113413b864f731-d445-4c76-a0a6-11d072be6e55",
+      roomId: roomId,
     };
     // Subscribe to the creation of message in DynamoDB table
     // Update the messages whenever new messages is been sent to the DynamoDB table.
@@ -70,9 +72,7 @@ export default function Chat({ messages }) {
   }, [user]);
 
 
-  // talk to LEX bot API // ====================================================================
-  const [enableBot, setEnableBot] = useState(true)
-
+  // functionality to send messages and get response from chat bot
   const botResponse = async (userInput) => {
     try {
       const data = await Interactions.send("serviceBot_dev", userInput)
@@ -82,8 +82,6 @@ export default function Chat({ messages }) {
       console.error(err)
     }
   }
-  // =============================================================================================
-
 
   const handleSubmit = async (event) => {
     // Prevent the page from reloading
@@ -93,7 +91,7 @@ export default function Chat({ messages }) {
       // id is auto populated by AWS Amplify
       message: messageText, // the message content the user submitted (from state)
       name: user.username, // this is the username of the current user
-      roomId: "1662750113413b864f731-d445-4c76-a0a6-11d072be6e55",
+      roomId: roomId,
     };
 
     // Try make the mutation to graphql API
@@ -105,29 +103,35 @@ export default function Chat({ messages }) {
           input: input,
         },
       });
-
-      // talk to LEX bot API // ====================================================================
-      const botReplyData = await botResponse(messageText)
-      const botReply = botReplyData.message
-      const botInput = {
-        message: botReply,
-        name: "ChatBot",
-        roomId: '1662750113413b864f731-d445-4c76-a0a6-11d072be6e55',
-      };
-      await API.graphql({
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
-        query: createMessage,
-        variables: {
-          input: botInput,
-        },
-      });
-      // talk to LEX bot API // ====================================================================
       
+      if (enableBot && user.username != "admin") {
+        // send message to Lex API, store the response
+        const botReplyData = await botResponse(messageText)
+        const botReply = botReplyData.message
+        // add response message to DB so it shows up in chat
+        const botInput = {
+          message: botReply,
+          name: "ChatBot",
+          roomId: roomId,
+        };
+        await API.graphql({
+          authMode: 'AMAZON_COGNITO_USER_POOLS',
+          query: createMessage,
+          variables: {
+            input: botInput,
+          },
+        });
+
+        if (botReply.includes("Thank you for your inquiry")){
+          setEnableBot(false)
+        }
+      }
+
     } catch (err) {
       console.error(err);
     }
   };
-
+  console.log(enableBot)
   if (user) {
     return (
       // chat window
