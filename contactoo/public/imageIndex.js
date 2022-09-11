@@ -1,10 +1,10 @@
-import mainLogo from './mainLogo.svg'
-import splashBG from './splashBG.png'
-import magnifyGlass from './magnifyGlass.svg'
-import smsLogo from './smsLogo.svg'
-import emailLogo from './emailLogo.svg'
-import sendLogo from './sendLogo.svg'
-
+import mainLogo from "./mainLogo.svg";
+import splashBG from "./splashBG.png";
+import magnifyGlass from "./magnifyGlass.svg";
+import smsLogo from "./smsLogo.svg";
+import emailLogo from "./emailLogo.svg";
+import sendLogo from "./sendLogo.svg";
+import mapLogo from "./mapLogo.svg";
 
 export {
   mainLogo,
@@ -12,5 +12,6 @@ export {
   magnifyGlass,
   smsLogo,
   emailLogo,
-  sendLogo
-}
+  sendLogo,
+  mapLogo,
+};
