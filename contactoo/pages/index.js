@@ -1,13 +1,17 @@
 // This is the home page
 import { useState } from "react";
+import Map from "../components/map";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
+import { useLoadScript } from "@react-google-maps/api";
 import {
   mainLogo,
   splashBG,
   magnifyGlass,
   smsLogo,
   emailLogo,
+  mapLogo,
 } from "../public/imageIndex";
 import Chat from "../components/Chat";
 import Email from "../components/Email";
@@ -33,6 +37,11 @@ function Home({ messages, signOut, user }) {
   const handleShowChat = () => {
     toggleShowChat(showChat ? false : true);
   };
+
+  useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+    libraries: ["places"],
+  });
 
   const [emailIsOpen, setEmailIsOpen] = useState(false);
   const [smsIsOpen, setSmsIsOpen] = useState(false);
@@ -125,6 +134,11 @@ function Home({ messages, signOut, user }) {
               <p>Email us regarding your questions, comments, or concerns.</p>
             </button>
             <Email emailIsOpen={emailIsOpen} setEmailIsOpen={setEmailIsOpen} />
+
+            <button className="flex flex-col items-center justify-center max-w-md p-8 border border-gray-500 text-start hover:border-cyan-500 hover:text-cyan-500 md:p-10 w-72 h-72 md:h-96 md:w-96 rounded-2xl">
+              <Image src={mapLogo} />
+              <Link href="/location">Find Nearby Retailers For Support</Link>
+            </button>
           </div>
 
           {/* Live Chat Toggle */}

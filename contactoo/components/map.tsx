@@ -6,8 +6,6 @@ import Distance from './distance';
 import { toNamespacedPath } from 'node:path/win32';
 
 
-
-
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
@@ -66,7 +64,8 @@ export default function Map() {
 
                 }}
                 />
-                {!office && <p>Enter your starting location.</p>}
+                {!office && <p>Enter your starting location</p>
+                }
                 {directions && <Distance leg={directions.routes[0].legs[0]} />}
 
 
