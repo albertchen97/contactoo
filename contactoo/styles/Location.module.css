@@ -1,5 +1,12 @@
 .container {
   padding: 0 2rem;
+  background-color: #14161a;
+  
+  
+}
+
+.div#__next{
+  background-color: #14161a;
 }
 
 .main {
@@ -114,3 +121,37 @@
     flex-direction: column;
   }
 }
+
+
+.container {
+  display: flex;
+  height: 100vh;
+  background-color: #14161a;
+}
+
+.controls {
+  width: 20%;
+  padding: 1rem;
+  background: #14161a;
+  color: #fff;
+}
+
+.controls input {
+  border: none;
+}
+
+.map-container {
+  width: 100%;
+  height: 100vh;
+}
+
+.map {
+  width: 100%;
+  height: 100vh;
+}
+
+.highlight {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+

@@ -4,9 +4,9 @@ import Places from './places';
 import { Component } from 'react';
 import Distance from './distance';
 import { toNamespacedPath } from 'node:path/win32';
-import { ToastContainer, toast, Zoom, Bounce } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
+
+
+
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -14,7 +14,7 @@ type MapOptions = google.maps.MapOptions;
 
 
 export default function Map() {
-    const notify = () => toast("Hello!");
+
     const [office, setOffice] = useState<LatLngLiteral>();
     const mapRef = useRef<GoogleMap>();
     const [directions, setDirections] = useState<DirectionsResult>();
@@ -55,10 +55,10 @@ export default function Map() {
         <div className="container">
             <div className="controls">
                 <div>
-                    <button onClick={notify}>Notify</button>
-                    <ToastContainer />
+
+
                 </div>
-                <h1>Find Nearby Restaurants!</h1>
+                <h1>Find Nearby Retailers</h1>
 
                 <Places setOffice={(position) => {
                     setOffice(position);

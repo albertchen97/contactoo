@@ -19,6 +19,47 @@ a {
   box-sizing: border-box;
 }
 
+.container {
+  display: flex;
+
+  height: 100vh;
+  background-color: #14161a;
+}
+
+.controls {
+  width: 20%;
+  padding: 1rem;
+  background-color: #14161a;
+  color: #fff;
+}
+
+.controls input {
+  border: none;
+}
+
+.map-container {
+  width: 84vw;
+  height: 100vh;
+  background-color: #14161a;
+}
+
+.map {
+  width: 80%;
+  height: 100vh;
+  background-color: #14161a;
+}
+
+.highlight {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.combobox-input {
+  width: 100%;
+  padding: 0.5rem;
+  color: black !important;
+}
+
 /* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

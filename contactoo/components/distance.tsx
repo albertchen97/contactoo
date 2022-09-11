@@ -21,15 +21,15 @@ export default function Distance({ leg }: DistanceProps) {
     (leg.distance.value / 1000) * litreCostKM * commutesPerYear
   );
 
-  
+
   return (
     <div>
 
 
 
       <p>
-        This restaurant is <span className="highlight">{leg.distance.text}</span> away
-        from your location. <br/> Driving there would take {" "}
+        This retailer is <span className="highlight">{leg.distance.text}</span> away
+        from your location. <br /> Driving there would take {" "}
         <span className="highlight">{leg.duration.text}</span>.
 
       </p>

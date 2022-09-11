@@ -14,7 +14,6 @@ import {
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import Chat from "../components/Chat";
 import { useLoadScript } from "@react-google-maps/api";
-import Map from "../components/map";
 import React from "react";
 import "../components/distance";
 import "../components/places";
