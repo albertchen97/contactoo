@@ -10,14 +10,14 @@ import '@aws-amplify/ui-react/styles.css';
 import Image from 'next/image';
 import { sendLogo } from '../public/imageIndex';
 
-export default function Chat({ messages }) {
+export default function Chat({ messages, roomId }) {
   const [stateMessages, setStateMessages] = useState([...messages]);
   const [messageText, setMessageText] = useState('');
   const [user, setUser] = useState(null);
-
   useEffect(() => {
     // Get the current user's information from Amplify Auth
     const fetchUser = async () => {
+      console.log(roomId);
       try {
         const amplifyUser = await Auth.currentAuthenticatedUser();
         setUser(amplifyUser);
@@ -29,7 +29,7 @@ export default function Chat({ messages }) {
     fetchUser();
 
     const createMessageInput = {
-      roomId: '1662750113413b864f731-d445-4c76-a0a6-11d072be6e55',
+      roomId: roomId,
     };
     // Subscribe to the creation of message in DynamoDB table
     // Update the messages whenever new messages is been sent to the DynamoDB table.
@@ -76,7 +76,7 @@ export default function Chat({ messages }) {
       // id is auto populated by AWS Amplify
       message: messageText, // the message content the user submitted (from state)
       name: user.username, // this is the username of the current user
-      roomId: '1662750113413b864f731-d445-4c76-a0a6-11d072be6e55',
+      roomId: roomId,
     };
 
     // Try make the mutation to graphql API

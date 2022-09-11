@@ -28,12 +28,33 @@ Modal.setAppElement('#__next');
 // @props - messages: All the messages fetched from AWS DynamoDB, and passed by getServerSideProps().
 //        - signOut: The signOut function from Amplify, and passed by withAuthenticator().
 //        - user: The user object, which includes user's email and username, from AWS Cognito, and passed by withAuthenticator().
-function Home({ messages, signOut, user }) {
+function Home({ messages, roomId, signOut, user }) {
   // state and function for toggling live chat
   const [showChat, toggleShowChat] = useState(false);
 
   const handleShowChat = () => {
     toggleShowChat(showChat ? false : true);
+  };
+
+  const createRoom = async () => {
+    try {
+      const user = await SSR.Auth.currentAuthenticatedUser();
+
+      const roomDetail = {
+        id: '1234',
+        session: 'open',
+      };
+
+      const roomResponse = await SSR.API.graphql({
+        query: createRoom,
+        variables: { input: roomDetail },
+        authMode: 'AMAZON_COGNITO_USER_POOLS',
+      });
+
+      console.log('roomResponse: ', roomResponse.data);
+    } catch (error) {
+      console.log('error creating room: ', error);
+    }
   };
 
   const [emailIsOpen, setEmailIsOpen] = useState(false);
@@ -144,7 +165,7 @@ function Home({ messages, signOut, user }) {
             '  z-30 right-0 md:right-5 fixed md:bottom-16 bottom-10 w-80 h-96 md:h-[32rem] transition-all'
           }
         >
-          <Chat messages={messages} />
+          <Chat messages={messages} roomId={roomId} />
         </div>
       </main>
 
@@ -165,8 +186,19 @@ export async function getServerSideProps({ req }) {
     // currentAuthenticatedUser() will throw an error if the user is not signed in.
     const user = await SSR.Auth.currentAuthenticatedUser();
 
+    const roomDetail = {
+      id: '1234',
+      session: 'open',
+    };
+
+    const roomResponse = await SSR.API.graphql({
+      query: createRoom,
+      variables: { input: roomDetail },
+      authMode: 'AMAZON_COGNITO_USER_POOLS',
+    });
+
     const messageDetail = {
-      roomId: '1662750113413b864f731-d445-4c76-a0a6-11d072be6e55',
+      roomId: roomResponse.data.createRoom.roomId,
       limit: 10,
       nextToken: '',
     };
@@ -180,9 +212,11 @@ export async function getServerSideProps({ req }) {
     });
     console.log('Successfully got the user authentication information.');
     // return all the messages from the dynamoDB
+    console.log(roomResponse.data.createRoom.roomId);
     return {
       props: {
         messages: response.data.listMessages.items,
+        roomId: roomResponse.data.createRoom.roomId,
       },
     };
   } catch (error) {
