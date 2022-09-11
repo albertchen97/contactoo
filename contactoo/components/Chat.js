@@ -15,6 +15,8 @@ export default function Chat({ messages, roomId }) {
   const [stateMessages, setStateMessages] = useState([...messages]);
   const [messageText, setMessageText] = useState("");
   const [user, setUser] = useState(null);
+  const [enableBot, setEnableBot] = useState(true)
+  
   useEffect(() => {
     // Get the current user's information from Amplify Auth
     const fetchUser = async () => {
@@ -70,9 +72,7 @@ export default function Chat({ messages, roomId }) {
   }, [user]);
 
 
-  // talk to LEX bot API // ====================================================================
-  const [enableBot, setEnableBot] = useState(true)
-
+  // functionality to send messages and get response from chat bot
   const botResponse = async (userInput) => {
     try {
       const data = await Interactions.send("serviceBot_dev", userInput)
@@ -82,8 +82,6 @@ export default function Chat({ messages, roomId }) {
       console.error(err)
     }
   }
-  // =============================================================================================
-
 
   const handleSubmit = async (event) => {
     // Prevent the page from reloading
@@ -105,29 +103,35 @@ export default function Chat({ messages, roomId }) {
           input: input,
         },
       });
-
-      // talk to LEX bot API // ====================================================================
-      const botReplyData = await botResponse(messageText)
-      const botReply = botReplyData.message
-      const botInput = {
-        message: botReply,
-        name: "ChatBot",
-        roomId: '1662750113413b864f731-d445-4c76-a0a6-11d072be6e55',
-      };
-      await API.graphql({
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
-        query: createMessage,
-        variables: {
-          input: botInput,
-        },
-      });
-      // talk to LEX bot API // ====================================================================
       
+      if (enableBot && user.username != "admin") {
+        // send message to Lex API, store the response
+        const botReplyData = await botResponse(messageText)
+        const botReply = botReplyData.message
+        // add response message to DB so it shows up in chat
+        const botInput = {
+          message: botReply,
+          name: "ChatBot",
+          roomId: roomId,
+        };
+        await API.graphql({
+          authMode: 'AMAZON_COGNITO_USER_POOLS',
+          query: createMessage,
+          variables: {
+            input: botInput,
+          },
+        });
+
+        if (botReply.includes("Thank you for your inquiry")){
+          setEnableBot(false)
+        }
+      }
+
     } catch (err) {
       console.error(err);
     }
   };
-
+  console.log(enableBot)
   if (user) {
     return (
       // chat window

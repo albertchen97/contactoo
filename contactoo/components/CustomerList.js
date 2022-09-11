@@ -11,7 +11,7 @@ export default function CustomerList() {
       try {
         const roomDetail = {
           id: '1234',
-          limit: 10,
+          limit: 99,
           nextToken: '',
         };
         const roomsReq = await API.graphql({
@@ -27,7 +27,6 @@ export default function CustomerList() {
     }
     getRooms();
   }, []);
-  // TODO: add functions to read customers from DB and render them as a CustomerTicket into the list
 
   return (
     <ul className="w-full h-full divide-y divide-gray-500 ">
