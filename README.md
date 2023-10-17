@@ -1,4 +1,4 @@
-# Contactoo Customer Service Website
+# Contactoo
 
 Contactoo is a customer service website featuring live chat with an AI chatbot, emailing, and SMS messaging.
 
