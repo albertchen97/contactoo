@@ -1,4 +1,15 @@
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+## Installing NPM Packages
+
+Install NPM packages and bypass the upstream dependency conflict:
+
+```bash
+npm install --legacy-peer-deps
+# or
+npm install --force
+```
 
 ## Getting Started
 
