@@ -1,9 +1,8 @@
-# headstarter-mock-plivo
-Headstarter mock internship project assigned by a product manager from Plivo.
+# Contactoo Customer Service Website
 
-# Video Demo
+Contactoo is a customer service website featuring live chat with an AI chatbot, emailing, and SMS messaging.
 
-https://youtu.be/UJcYY58Rsu4
+## Tech Stack
 
-# Tech Stack
-
+* **Frontend**: Next.js, TailwindCSS
+* **Backend**: AWS (Amplify, Cognito, GraphQL, DynamoDB)
