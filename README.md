@@ -45,15 +45,15 @@ Customer's View:
 
 ![](images/adminchat2.PNG)
 
-## Email the Retailer
+## Emailing the Retailer
 
 ![](images/email.PNG)
 
-## Send an SMS Message to the Retailer
+## Sending an SMS Message to the Retailer
 
 ![](images/sms.PNG)
 
-## Find a Retailer on Google Maps
+## Finding a Retailer on Google Maps
 
 ![](images/findretailer.PNG)
 
