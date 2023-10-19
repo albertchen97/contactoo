@@ -59,7 +59,7 @@ Customer's View:
 
 ## Video Demo
 
-[A **very rushed** video demo](https://youtu.be/UJcYY58Rsu4?si=JjmcvJ2U8_n86sxR)*(there was a time limit)*
+[A **very rushed** video demo](https://youtu.be/UJcYY58Rsu4?si=JjmcvJ2U8_n86sxR) *(there was a time limit)*
 
 ## Tech Stack
 
