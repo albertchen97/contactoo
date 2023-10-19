@@ -31,6 +31,12 @@ Contactoo is a customer service website where you can live chat with an AI chatb
 
 ### The representative/retailer can manage multiple tickets/user requests and reply to the customers:
 
+#### Ticket Management
+
+![](images/tickets.PNG)
+
+#### Reply to Previous User Request
+
 ![](images/adminchat1.PNG)
 
 ![](images/adminchat2.PNG)
