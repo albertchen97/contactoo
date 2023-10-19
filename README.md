@@ -37,7 +37,11 @@ Contactoo is a customer service website where you can live chat with an AI chatb
 
 #### Reply to Previous User Request
 
+Retailer's View:
+
 ![](images/adminchat1.PNG)
+
+Customer's View:
 
 ![](images/adminchat2.PNG)
 
