@@ -53,13 +53,13 @@ Customer's View:
 
 ![](images/sms.PNG)
 
-## Finding a Retailer on Google Maps
+## Find a Retailer on Google Maps
 
 ![](images/findretailer.PNG)
 
 ## Video Demo
 
-[A **very rushed** video demo *(there was a time limit)*](https://youtu.be/UJcYY58Rsu4?si=JjmcvJ2U8_n86sxR)
+[A **very rushed** video demo](https://youtu.be/UJcYY58Rsu4?si=JjmcvJ2U8_n86sxR)*(there was a time limit)*
 
 ## Tech Stack
 
