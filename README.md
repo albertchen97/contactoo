@@ -2,6 +2,11 @@
 
 Contactoo is a customer service website where you can live chat with an AI chatbot, talk to a representitive, email or send an SMS message to the retailer, and find a nearby retailers on Google Maps.
 
+
+## Architecture Diagram
+
+![Architecture Diagram](images/architecture.png)
+
 ## Sign In Page
 
 ![Sign In](images/signin.PNG)
