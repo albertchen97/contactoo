@@ -1,30 +1,54 @@
 {
+  "api": {},
   "auth": {
     "contactoo52adf4ce": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [],
       "customAuth": false,
+      "dependsOn": [],
       "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
         "socialProviders": [],
         "usernameAttributes": [],
-        "signupAttributes": ["EMAIL"],
-        "passwordProtectionSettings": {
-          "passwordPolicyMinLength": 8,
-          "passwordPolicyCharacters": []
-        },
-        "mfaConfiguration": "OFF",
-        "mfaTypes": ["SMS"],
-        "verificationMechanisms": ["EMAIL"]
-      }
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
     }
   },
-  "api": {},
   "interactions": {
     "serviceBot": {
-      "service": "Lex",
+      "build": true,
       "providerPlugin": "awscloudformation",
-      "build": true
+      "service": "Lex"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_interactions_serviceBot_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "interactions",
+          "resourceName": "serviceBot"
+        }
+      ]
+    },
+    "AMPLIFY_interactions_serviceBot_s3Key": {
+      "usedBy": [
+        {
+          "category": "interactions",
+          "resourceName": "serviceBot"
+        }
+      ]
     }
   }
 }

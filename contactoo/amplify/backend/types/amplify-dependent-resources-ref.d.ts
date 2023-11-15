@@ -1,20 +1,20 @@
 export type AmplifyDependentResourcesAttributes = {
-    "auth": {
-        "contactoo52adf4ce": {
-            "IdentityPoolId": "string",
-            "IdentityPoolName": "string",
-            "UserPoolId": "string",
-            "UserPoolArn": "string",
-            "UserPoolName": "string",
-            "AppClientIDWeb": "string",
-            "AppClientID": "string"
-        }
-    },
-    "interactions": {
-        "serviceBot": {
-            "Region": "string",
-            "BotName": "string",
-            "FunctionArn": "string"
-        }
+  "auth": {
+    "contactoo52adf4ce": {
+      "AppClientID": "string",
+      "AppClientIDWeb": "string",
+      "IdentityPoolId": "string",
+      "IdentityPoolName": "string",
+      "UserPoolArn": "string",
+      "UserPoolId": "string",
+      "UserPoolName": "string"
     }
+  },
+  "interactions": {
+    "serviceBot": {
+      "BotName": "string",
+      "FunctionArn": "string",
+      "Region": "string"
+    }
+  }
 }
