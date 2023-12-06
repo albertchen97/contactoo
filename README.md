@@ -64,7 +64,7 @@ Customer's View:
 
 ## Video Demo
 
-[Video Demo](https://youtu.be/UJcYY58Rsu4?si=JjmcvJ2U8_n86sxR) *(we were rushed because we were a few minutes before the deadline)*
+[Video Demo](https://youtu.be/UJcYY58Rsu4?si=JjmcvJ2U8_n86sxR) *(we were in a hurry because we only had a few minutes before the deadline)*
 
 ## Tech Stack
 
